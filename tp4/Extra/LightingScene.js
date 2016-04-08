@@ -186,6 +186,8 @@ LightingScene.prototype.display = function() {
 	this.boardA.display();
 	this.popMatrix();
 
+	this.materialDefault.apply();
+
 	// Board B
 	this.pushMatrix();
 	this.translate(10.5, 4.5, 0.2);
@@ -194,13 +196,23 @@ LightingScene.prototype.display = function() {
 	this.boardB.display();
 	this.popMatrix();
 
+	this.materialDefault.apply();
+
 	// cylinder
-	//this.pushMatrix();
-	//this.translate(4, 0, 12);
-	//this.rotate(-90 * degToRad, 1, 0, 0)
-	//this.scale(1, 1, 10);
-	//this.cylinder.display();
-	//this.popMatrix();
+	this.pushMatrix();
+	this.translate(4, 0, 12);
+	this.rotate(-90 * degToRad, 1, 0, 0)
+	this.scale(1, 1, 10);
+	this.cylinder.display();
+	this.popMatrix();
+	
+	// prism
+	this.pushMatrix();
+	this.translate(12, 0, 3);
+	this.rotate(-90 * degToRad, 1, 0, 0)
+	this.scale(1, 1, 10);
+	this.prism.display();
+	this.popMatrix();
 
 	// lamp
 	this.pushMatrix();
