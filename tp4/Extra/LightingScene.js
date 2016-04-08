@@ -63,6 +63,10 @@ LightingScene.prototype.init = function(application) {
 	this.slidesAppearance.setDiffuse(0.9, 0.9, 0.9,1);
 	this.slidesAppearance.setSpecular(0.2, 0.2, 0.2,1);	
 	this.slidesAppearance.setShininess(30);
+
+	this.columnAppearance = new CGFappearance(this);
+	this.columnAppearance.loadTexture("../resources/Column.png")	
+
 };
 
 LightingScene.prototype.initCameras = function() {
@@ -203,6 +207,7 @@ LightingScene.prototype.display = function() {
 	this.translate(4, 0, 12);
 	this.rotate(-90 * degToRad, 1, 0, 0)
 	this.scale(1, 1, 10);
+	this.columnAppearance.apply()
 	this.cylinder.display();
 	this.popMatrix();
 	

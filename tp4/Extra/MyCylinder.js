@@ -19,6 +19,7 @@ MyCylinder.prototype.constructor = MyCylinder;
 	this.vertices = [];
 	this.normals = [];
 	this.indices = [];
+	this.texCoords = [];
  	var ang = Math.PI*2/this.slices;
  	var x, y;
 
@@ -30,6 +31,11 @@ MyCylinder.prototype.constructor = MyCylinder;
 
 			this.vertices.push(x, y, j / this.stacks);
 			this.normals.push(i * ang + ang / 2, i * ang + ang/2, 0);
+			
+			// Pushing texture coordinates
+			/*For each vertex, we push a (u,v) coordinate, that depends on the iteration.
+			u and v will either be 0 or 1.*/
+			this.texCoords.push(i%2, j%2);
  		}
 	}
 
