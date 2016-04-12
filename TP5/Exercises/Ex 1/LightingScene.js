@@ -69,7 +69,9 @@ LightingScene.prototype.init = function(application) {
 	this.columnAppearance.loadTexture("../resources/images/Column.png")	
 	this.columnAppearance.setDiffuse(0.3, 0.3, 0.3, 1);
 
-	this.setUpdatePeriod(100);
+	//Set update function
+	this.updatePeriod = 60;
+	this.setUpdatePeriod(this.updatePeriod);
 
 };
 

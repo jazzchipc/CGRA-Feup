@@ -27,6 +27,17 @@
     this.redAppearance.setAmbient(0.2, 0, 0, 1);
     this.redAppearance.setDiffuse(0.5, 0, 0, 1);
     this.redAppearance.setSpecular(0.5, 0, 0, 1);
+
+	//Animation related methods
+	this.initialTime = 0;	// Initial time in miliseconds
+    this.elapsedTime = 0;	// Elapsed time in SECONDS
+
+    //Rate at which the pointers turn
+    this.secPointerAngleRate = 1/60 * 360;
+    this.minPointerAngleRate = 1/60/60 * 360;
+    this.horPointerAngleRate = 1/60/60/24 * 360;
+
+    
  };
 
 MyClock.prototype = Object.create(CGFobject.prototype);
@@ -41,7 +52,7 @@ MyClock.prototype.constructor = MyClock;
 	this.blackAppearance.apply();
 
  	this.scene.pushMatrix();
- 	this.minPointer.setAngle(180);
+ 	this.minPointer.setAngle(180 + this.elapsedTime*this.minPointerAngleRate);
  	this.scene.translate(0, 0, 1);
  	this.minPointer.display();
  	this.scene.popMatrix();
@@ -49,7 +60,7 @@ MyClock.prototype.constructor = MyClock;
 	this.redAppearance.apply();
 
  	this.scene.pushMatrix();
- 	this.secPointer.setAngle(270);
+ 	this.secPointer.setAngle(270 + this.elapsedTime*this.secPointerAngleRate);
  	this.scene.translate(0, 0, 1);
  	this.secPointer.display();
  	this.scene.popMatrix();
@@ -57,7 +68,7 @@ MyClock.prototype.constructor = MyClock;
 	this.blackAppearance.apply();
 
  	this.scene.pushMatrix();
- 	this.horPointer.setAngle(90);
+ 	this.horPointer.setAngle(90 + this.elapsedTime*this.horPointerAngleRate);
  	this.scene.translate(0, 0, 1);
  	this.horPointer.display();
  	this.scene.popMatrix();
@@ -65,5 +76,15 @@ MyClock.prototype.constructor = MyClock;
 
  MyClock.prototype.update = function(currTime){
 
+	if (this.initialTime == 0)
+	{
+		this.initialTime = currTime;
+	}
+
+	else
+	{
+		this.elapsedTime = Math.floor((currTime - this.initialTime)/1000);
+	}
+	
  }
  
