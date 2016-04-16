@@ -250,7 +250,6 @@ LightingScene.prototype.display = function() {
 
 	//plane
 	this.pushMatrix();
-	this.translate(4, 4, 8);
 	this.plane.display();
 	this.popMatrix();
 
