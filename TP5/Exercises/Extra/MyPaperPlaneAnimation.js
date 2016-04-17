@@ -21,7 +21,7 @@
 
 	//Speeds
 	this.stepX = 0;
- 	this.stepY = 0.1;
+ 	this.stepY = 0.25;
  	this.stepZ = -2;
  	this.angleStep = 5;
 
@@ -64,11 +64,13 @@ MyPaperPlaneAnimation.prototype.constructor = MyPaperPlaneAnimation;
 		
 	if(this.currentState == this.state.AscendingTrajectory){
 		this.Z = this.Z0 + this.elapsedTime*this.stepZ;
+		this.Y = this.Y0 + this.elapsedTime*this.stepY;
 		if(this.Z <= 0.35){
 			this.currentState = this.state.DescendingTrajectory;
 			this.initialTime = 0;
 			this.stepZ = 0;
-			this.stepY = -1.5;
+			this.stepY = -1;
+			this.Y0 = this.Y;
 		}
 	} else if(this.currentState == this.state.DescendingTrajectory){
 		this.Y = this.Y0 + this.elapsedTime*this.stepY;
