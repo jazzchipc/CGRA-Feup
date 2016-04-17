@@ -22,14 +22,13 @@
 	//Speeds
 	this.stepX = 0;
  	this.stepY = 0.1;
- 	this.stepZ = -0.5;
- 	this.angleStep = 0;
+ 	this.stepZ = -2;
+ 	this.angleStep = 5;
 
  	this.state ={
  	      AscendingTrajectory:1,
- 	      Collision:2,
- 	      DescendingTrajectory:3,
- 	      Stopped:4
+ 	      DescendingTrajectory:2,
+ 	      Stopped:3
  	}
 
  	this.currentState = this.state.AscendingTrajectory;
@@ -46,15 +45,10 @@ MyPaperPlaneAnimation.prototype.constructor = MyPaperPlaneAnimation;
 
  MyPaperPlaneAnimation.prototype.display = function() {
 	var degToRad = Math.PI*2 / 360;
-	 
-   if(this.currentState == this.state.DescendingTrajectory){
-	   this.scene.translate(this.X, this.Y, this.Z);
-        this.scene.rotate(this.angle * degToRad, 1, 0, 0);
-   } else{
-        this.scene.translate(this.X, this.Y, this.Z);
-   }
 	
-   this.plane.display();
+	this.scene.translate(this.X, this.Y, this.Z);
+	this.scene.rotate(this.angle * degToRad, 1, 0, 0);
+   	this.plane.display();
    
  };
 
@@ -65,71 +59,26 @@ MyPaperPlaneAnimation.prototype.constructor = MyPaperPlaneAnimation;
 		this.initialTime = currTime;
 	}
 
-	else
-	{
-		if (this.currentState == this.state.AscendingTrajectory)	// if it's flying
-		{
-			if (this.Z <= 0)	//if it collides with the wall
-			{
-				this.currentState = this.state.Collision;
-				
-				//Reset initial conditions for different kind of movement
-				this.initialTime = 0;
-				this.X0 = this.X;
-				this.Y0 = this.Y;
-				this.Z0 = this.Z;
-			}
-			
-			// else continues to fly
-		}
+	else{	
+	this.elapsedTime = (currTime - this.initialTime)/1000;
 		
-		if (this.currentState == this.state.Collision)	// if it hits
-		{
-			this.currentState = this.state.DescendingTrajectory;	// it starts falling
-			
-			this.angleStep = 5;
+	if(this.currentState == this.state.AscendingTrajectory){
+		this.Z = this.Z0 + this.elapsedTime*this.stepZ;
+		if(this.Z <= 0.35){
+			this.currentState = this.state.DescendingTrajectory;
+			this.initialTime = 0;
+			this.stepZ = 0;
+			this.stepY = -1.5;
 		}
-		
-		if (this.currentState == this.state.DescendingTrajectory)
-		{
-			if (this.Y >= 0)
-			{
-				if (this.angle >= 90)
-				{
-					this.angleStep = 0;
-				}
-				
-				this.stepX = 0;
-				this.stepY = -0.9;
-				this.stepZ = 0;
-			}
-			
-			/*else
-			{
-				this.currentState = this.state.Stopped;
-				
-				//Reset initial conditions for different kind of movement
-				this.initialTime = 0;
-				this.X0 = this.X;
-				this.Y0 = this.Y;
-				this.Z0 = this.Z;
-			}*/
+	} else if(this.currentState == this.state.DescendingTrajectory){
+		this.Y = this.Y0 + this.elapsedTime*this.stepY;
+		if(this.angle <= 90)
+			this.angle += this.elapsedTime*this.angleStep;
+		if(this.Y - 0.75 <= 0){
+			this.currentState = this.state.Stopped;
 		}
-			
-		if (this.currentState == this.state.Stopped)
-		{
-			{
-				this.stepY = 0;
-			}
-			
-		}
-		
-		//Update positions
-	    this.elapsedTime = (currTime - this.initialTime)/1000;
-		this.X = this.X0 + this.elapsedTime * this.stepX;
-		this.Y = this.Y0 + this.elapsedTime * this.stepY;
-		this.Z = this.Z0 + this.elapsedTime * this.stepZ;
-		this.angle  += this.angleStep;
+	}
+
 	}
 	
  }
