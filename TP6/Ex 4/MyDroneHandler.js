@@ -7,10 +7,10 @@
 
  	this.drone = new MyDrone(scene);
 
- 	this.X = x;
- 	this.Y = y;
- 	this.Z = z;
- 	this.angle = angle;
+ 	this.X = 0;
+ 	this.Y = 0;
+ 	this.Z = 0;
+ 	this.angle = 0;
 
 	this.angleStep = 5;
  	this.step = 0.2;
