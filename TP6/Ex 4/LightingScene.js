@@ -52,6 +52,8 @@ LightingScene.prototype.init = function(application) {
 	this.clock = new MyClock(this, 12, 1);
 	this.drone = new MyDroneHandler(this, 4.5, 4, 8, -180);
 
+	this.testArch = new MyArch(this);
+
 	// Materials
 	this.materialDefault = new CGFappearance(this);
 
@@ -192,6 +194,7 @@ LightingScene.prototype.display = function() {
 	//drone
 	this.pushMatrix();
 	this.drone.display();
+	//this.testArch.display();
 	this.popMatrix();
 
 	// ---- END Geometric transformation section
