@@ -69,6 +69,30 @@ LightingScene.prototype.AnimateClock = function (){
 };
 
 LightingScene.prototype.update = function(currTime){
+	var bodyIndex, legIndex, heliceIndex;
+	switch(this.DroneBodyAppearance){
+		case 'Army': bodyIndex = 0; break;
+		case 'Colorful': bodyIndex = 1; break;
+		case 'Wood': bodyIndex = 2; break;
+		case 'Metallic': bodyIndex = 3; break;
+	}
+
+	switch(this.DroneLegAppearance){
+		case 'Army': legIndex = 0; break;
+		case 'Colorful': legIndex = 1; break;
+		case 'Wood': legIndex = 2; break;
+		case 'Metallic': legIndex = 3; break;
+	}
+
+	switch(this.DroneHeliceAppearance){
+		case 'Army': heliceIndex = 0; break;
+		case 'Colorful': heliceIndex = 1; break;
+		case 'Wood': heliceIndex = 2; break;
+		case 'Metallic': heliceIndex = 3; break;
+	}
+
+	this.drone.updateTexturesIndex(bodyIndex, legIndex, heliceIndex);
+
 	if(this.animateClock)
 		this.clock.update(currTime);
 	this.drone.update(currTime);
@@ -136,23 +160,12 @@ LightingScene.prototype.initAppearances = function() {
 	this.columnAppearance.setDiffuse(0.3, 0.3, 0.3, 1);
 
 	//drone appearances
-	this.droneAppearances = [];
-	this.droneAppearances.push("../resources/images/Army.jpg")
-	this.droneAppearances.push("../resources/images/Colorful.jpg")
-	this.droneAppearances.push("../resources/images/Wood.jpg")
-	this.droneAppearances.push("../resources/images/Metallic.jpg")
 	this.droneAppearanceList = ['Army', 'Colorful', 'Wood', 'Metallic']
-	this.DroneBodyAppearance = 0;
-	this.DroneHeliceAppearance = 0;
-	this.DroneLegAppearance = 0;
+	this.DroneBodyAppearance = 'Army';
+	this.DroneHeliceAppearance = 'Army';
+	this.DroneLegAppearance = 'Army';
 
 }
-
-LightingScene.prototype.updateTextures = function(){
-	//if(DroneBodyAppearance = 1)
-		//this.drone.setAppearance(this.droneAppearances[1], "Body");
-}
-
 
 LightingScene.prototype.updateLights = function() {
 	
@@ -198,9 +211,6 @@ LightingScene.prototype.display = function() {
 
 	// Update all lights used
 	this.updateLights();
-
-	//Update drone textures
-	this.updateTextures();
 
 	// Draw axis
 	this.axis.display();

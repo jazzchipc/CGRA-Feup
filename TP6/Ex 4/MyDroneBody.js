@@ -8,34 +8,25 @@
 	this.crossedArm = new MyCylinder(scene, 8, 2); 
 	this.helSupport = new MyCylinder(scene, 8, 1); 
 	this.mainBody = new MySemiSphere(scene, 8, 10);
-	
-	this.bodyAppearance = new CGFappearance(scene);
-	this.bodyAppearance.loadTexture("../resources/images/Colorful.jpg");
-	this.bodyAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');	
-	this.bodyAppearance.setDiffuse(0.3, 0.3, 0.3,1);
-	this.bodyAppearance.setSpecular(0.6, 0.6, 0.6,1);	
-	this.bodyAppearance.setShininess(120);
  };
 
 MyDroneBody.prototype = Object.create(CGFobject.prototype);
 MyDroneBody.prototype.constructor = MyDroneBody;
 
 MyDroneBody.prototype.display = function() {
-	this.bodyAppearance.apply();
-
 	//Arms
 	//Arm paralel to z axis
 	this.scene.pushMatrix();
-	this.scene.translate(0, 0, -3);
-	this.scene.scale(0.2, 0.2, 6);
+	this.scene.translate(0, 0, -2);
+	this.scene.scale(0.2, 0.2, 4);
 	this.crossedArm.display();
 	this.scene.popMatrix();
 
 	//Arm paralel to X axis
 	this.scene.pushMatrix();
-	this.scene.translate(3, 0, 0);
+	this.scene.translate(2, 0, 0);
 	this.scene.rotate(-90 * degToRad, 0, 1, 0)
-	this.scene.scale(0.2, 0.2, 6);
+	this.scene.scale(0.2, 0.2, 4);
 	this.crossedArm.display();
 	this.scene.popMatrix();
 
@@ -43,7 +34,7 @@ MyDroneBody.prototype.display = function() {
 
 	//support at negative z axis
 	this.scene.pushMatrix();
-	this.scene.translate(0, -0.25, -3.5);
+	this.scene.translate(0, -0.25, -2.5);
 	this.scene.scale(0.5, 0.5, 0.5);
 	this.scene.rotate(-90 * degToRad, 1, 0, 0)
 	this.helSupport.display();
@@ -51,7 +42,7 @@ MyDroneBody.prototype.display = function() {
 
 	//support at positive z axis
 	this.scene.pushMatrix();
-	this.scene.translate(0, -0.25, 3.5);
+	this.scene.translate(0, -0.25, 2.5);
 	this.scene.scale(0.5, 0.5, 0.5);
 	this.scene.rotate(-90 * degToRad, 1, 0, 0)
 	this.helSupport.display();
@@ -59,7 +50,7 @@ MyDroneBody.prototype.display = function() {
 	
 	//support at positive x axis
 	this.scene.pushMatrix();
-	this.scene.translate(3.5, -0.25, 0);
+	this.scene.translate(2.5, -0.25, 0);
 	this.scene.scale(0.5, 0.5, 0.5);
 	this.scene.rotate(-90 * degToRad, 1, 0, 0)
 	this.helSupport.display();
@@ -67,7 +58,7 @@ MyDroneBody.prototype.display = function() {
 
 	//support at negative x axis
 	this.scene.pushMatrix();
-	this.scene.translate(-3.5, -0.25, 0);
+	this.scene.translate(-2.5, -0.25, 0);
 	this.scene.scale(0.5, 0.5, 0.5);
 	this.scene.rotate(-90 * degToRad, 1, 0, 0)
 	this.helSupport.display();
@@ -76,12 +67,8 @@ MyDroneBody.prototype.display = function() {
     //Main body
 	this.scene.pushMatrix();
 	this.scene.translate(0, -0.25, 0);
-	this.scene.scale(0.6, 1.2, 0.6);
+	this.scene.scale(0.5, 1.2, 0.5);
 	this.scene.rotate(-90 * degToRad, 1, 0, 0)
 	this.mainBody.display();
 	this.scene.popMatrix();
-}
-
-MyDroneBody.prototype.setTexture = function(newTexture){
-	this.bodyAppearance.loadTexture(newTexture);
 }
