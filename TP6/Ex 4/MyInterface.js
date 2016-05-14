@@ -37,6 +37,12 @@ MyInterface.prototype.init = function(application) {
 	lightGroup.add(this.scene, 'light2');
 	lightGroup.add(this.scene, 'light3');
 
+	var appearanceGroup=this.gui.addFolder('Appearances');
+	appearanceGroup.open();
+	appearanceGroup.add(this.scene, 'DroneBodyAppearance', this.scene.droneAppearanceList);
+	appearanceGroup.add(this.scene, 'DroneLegAppearance', this.scene.droneAppearanceList);
+	appearanceGroup.add(this.scene, 'DroneHeliceAppearance',  this.scene.droneAppearanceList);
+
 	this.gui.add(this.scene, 'AnimateClock');	
 
 	// add a slider

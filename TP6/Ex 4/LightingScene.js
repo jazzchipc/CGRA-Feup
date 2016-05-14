@@ -52,34 +52,7 @@ LightingScene.prototype.init = function(application) {
 	this.clock = new MyClock(this, 12, 1);
 	this.drone = new MyDroneHandler(this, 4.5, 4, 8, -180);
 
-	this.testArch = new MyArch(this);
-
-	// Materials
-	this.materialDefault = new CGFappearance(this);
-
-	this.floorAppearance = new CGFappearance(this);
-	this.floorAppearance.loadTexture("../resources/images/floor.png")
-
-	this.windowAppearance = new CGFappearance(this);
-	this.windowAppearance.loadTexture("../resources/images/window.png")
-	this.windowAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
-
-	this.boardAppearance = new CGFappearance(this);
-	this.boardAppearance.loadTexture("../resources/images/board.png")	
-	this.boardAppearance.setDiffuse(0.3, 0.3, 0.3,1);
-	this.boardAppearance.setSpecular(0.6, 0.6, 0.6,1);	
-	this.boardAppearance.setShininess(120);
-
-	this.slidesAppearance= new CGFappearance(this);
-	this.slidesAppearance.loadTexture("../resources/images/slides.png")	
-	this.slidesAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
-	this.slidesAppearance.setDiffuse(0.9, 0.9, 0.9,1);
-	this.slidesAppearance.setSpecular(0.2, 0.2, 0.2,1);	
-	this.slidesAppearance.setShininess(30);
-
-	this.columnAppearance = new CGFappearance(this);
-	this.columnAppearance.loadTexture("../resources/images/Column.png")	
-	this.columnAppearance.setDiffuse(0.3, 0.3, 0.3, 1);
+	this.initAppearances();
 
 	//Set update function
 	this.updatePeriod = 60;
@@ -135,6 +108,52 @@ LightingScene.prototype.initLights = function() {
 	this.lights[3].enable();
 };
 
+LightingScene.prototype.initAppearances = function() {
+	this.materialDefault = new CGFappearance(this);
+
+	this.floorAppearance = new CGFappearance(this);
+	this.floorAppearance.loadTexture("../resources/images/floor.png")
+
+	this.windowAppearance = new CGFappearance(this);
+	this.windowAppearance.loadTexture("../resources/images/window.png")
+	this.windowAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
+
+	this.boardAppearance = new CGFappearance(this);
+	this.boardAppearance.loadTexture("../resources/images/board.png")	
+	this.boardAppearance.setDiffuse(0.3, 0.3, 0.3,1);
+	this.boardAppearance.setSpecular(0.6, 0.6, 0.6,1);	
+	this.boardAppearance.setShininess(120);
+
+	this.slidesAppearance= new CGFappearance(this);
+	this.slidesAppearance.loadTexture("../resources/images/slides.png")	
+	this.slidesAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
+	this.slidesAppearance.setDiffuse(0.9, 0.9, 0.9,1);
+	this.slidesAppearance.setSpecular(0.2, 0.2, 0.2,1);	
+	this.slidesAppearance.setShininess(30);
+
+	this.columnAppearance = new CGFappearance(this);
+	this.columnAppearance.loadTexture("../resources/images/Column.png")	
+	this.columnAppearance.setDiffuse(0.3, 0.3, 0.3, 1);
+
+	//drone appearances
+	this.droneAppearances = [];
+	this.droneAppearances.push("../resources/images/Army.jpg")
+	this.droneAppearances.push("../resources/images/Colorful.jpg")
+	this.droneAppearances.push("../resources/images/Wood.jpg")
+	this.droneAppearances.push("../resources/images/Metallic.jpg")
+	this.droneAppearanceList = ['Army', 'Colorful', 'Wood', 'Metallic']
+	this.DroneBodyAppearance = 0;
+	this.DroneHeliceAppearance = 0;
+	this.DroneLegAppearance = 0;
+
+}
+
+LightingScene.prototype.updateTextures = function(){
+	//if(DroneBodyAppearance = 1)
+		//this.drone.setAppearance(this.droneAppearances[1], "Body");
+}
+
+
 LightingScene.prototype.updateLights = function() {
 	
 	for (i = 0; i < this.lights.length; i++){
@@ -180,6 +199,9 @@ LightingScene.prototype.display = function() {
 	// Update all lights used
 	this.updateLights();
 
+	//Update drone textures
+	this.updateTextures();
+
 	// Draw axis
 	this.axis.display();
 
@@ -194,7 +216,6 @@ LightingScene.prototype.display = function() {
 	//drone
 	this.pushMatrix();
 	this.drone.display();
-	//this.testArch.display();
 	this.popMatrix();
 
 	// ---- END Geometric transformation section

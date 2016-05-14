@@ -9,7 +9,8 @@
 	this.spade = new MyCylinder(scene, 8, 1); 
 	
 	this.heliceAppearance = new CGFappearance(scene);
-	this.heliceAppearance.loadTexture("../resources/images/board.png")	
+	this.heliceAppearance.loadTexture("../resources/images/Colorful.jpg");
+	this.heliceAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');	
 	this.heliceAppearance.setDiffuse(0.3, 0.3, 0.3,1);
 	this.heliceAppearance.setSpecular(0.6, 0.6, 0.6,1);	
 	this.heliceAppearance.setShininess(120);
@@ -35,4 +36,8 @@ MyDroneHelice.prototype.display = function() {
 	this.scene.rotate(-90 * degToRad, 1, 0, 0)
 	this.spade.display();
 	this.scene.popMatrix();
+}
+
+MyDroneHelice.prototype.setTexture = function(newTexture){
+	this.heliceAppearance.loadTexture(newTexture);
 }

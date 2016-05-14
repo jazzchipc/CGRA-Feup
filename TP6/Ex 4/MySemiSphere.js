@@ -19,9 +19,12 @@ MySemiSphere.prototype.constructor = MySemiSphere;
 	this.vertices = [];
 	this.normals = [];
 	this.indices = [];
+	this.texCoords = [];
  	var ang = Math.PI*2/this.slices;
  	var x, y;
 
+	var incS = 0;
+	var incT = 0;
 	for(var j = 0; j <= this.stacks; j++){
 		for(var i = 0; i < this.slices; i++){
 			
@@ -37,7 +40,11 @@ MySemiSphere.prototype.constructor = MySemiSphere;
 
 			this.vertices.push(x, y, z);
 			this.normals.push(x, y, z);
+			this.texCoords.push(incS, incT);
+			incS += 1/this.slices;
  		}
+ 		incS = 0;
+		incT+= 1/this.stacks;
 	}
 
 	for(var j = 0; j < this.stacks; j++){
@@ -50,6 +57,21 @@ MySemiSphere.prototype.constructor = MySemiSphere;
 				this.indices.push(0 + this.slices * j, this.slices + this.slices * j, this.slices + i + this.slices * j);
  			else this.indices.push(i + 1 + this.slices * j, this.slices + i + 1 + this.slices * j, this.slices + i + this.slices * j);
  		} 
+	}
+
+	this.vertices.push(0, 0, 0);
+	this.normals.push(0, 0, 1);
+	this.texCoords.push(0, 1);
+
+	var lastVertex = this.slices + this.slices * this.stacks;
+	for(var i = 0; i < this.slices; i++){
+		if(i == this.slices - 1)
+ 				this.indices.push(i, lastVertex, 0);
+ 			else this.indices.push(i, lastVertex , i + 1);
+
+			if(i == this.slices - 1)
+				this.indices.push(0, lastVertex , this.slices);
+ 			else this.indices.push(i + 1, lastVertex , i + 1);
 	}
 
  	this.primitiveType = this.scene.gl.TRIANGLES;

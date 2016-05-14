@@ -49,5 +49,18 @@ MyDroneHandler.prototype.update = function(currTime){
 	else{	
 	this.elapsedTime = (currTime - this.initialTime)/1000;
 	}
-	
+ }
+
+ MyDroneHandler.prototype.setAppearance = function(appearance, dronePart){
+ 	if(dronePart == "Body"){
+ 		this.drone.body.setTexture(appearance);
+ 	} else if(dronePart == "Leg"){
+ 		this.drone.rightLeg.setTexture(appearance);
+ 		this.drone.leftLeg.setTexture(appearance);
+ 	} else if(dronePart == "Helice"){
+ 		this.drone.northHelice.setTexture(appearance);
+		this.drone.southHelice.setTexture(appearance);
+		this.drone.westHelice.setTexture(appearance);
+		this.drone.eastHelice.setTexture(appearance);
+ 	}
  }
