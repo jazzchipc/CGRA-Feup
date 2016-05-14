@@ -5,7 +5,7 @@
  function MyDroneLeg(scene) {
  	CGFobject.call(this,scene);
 	
-	this.base = new MyUnitCubeQuad(scene, -0.5, 1,-0.5, 1.5);
+	this.base = new MyUnitCubeQuad(scene, 0, 1, 0, 1);
 	this.rightArch = new MyArch(scene);
 	this.leftArch = new MyArch(scene);
  };

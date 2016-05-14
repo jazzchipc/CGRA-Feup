@@ -23,8 +23,6 @@ MyCylinder.prototype.constructor = MyCylinder;
  	var ang = Math.PI*2/this.slices;
  	var x, y;
 
-	var incS = 0;
-	var incT = 0;
 	var counter = 0;
 	for(var j = 0; j <= this.stacks; j++){
 		for(var i = 0; i < this.slices; i++){
@@ -35,11 +33,8 @@ MyCylinder.prototype.constructor = MyCylinder;
 			this.vertices.push(x, y, j / this.stacks);
 			counter++;
 			this.normals.push(Math.cos(i * ang + ang / 2), Math.sin(i * ang + ang/2), 0);
-			this.texCoords.push(incS, incT);
-			incS+=1/this.slices;
+			this.texCoords.push(i%2, j%2);
  		}
- 		incS = 0;
-		incT += 1/this.stacks;
 	}
 
 	for(var j = 0; j < this.stacks; j++){
@@ -71,7 +66,7 @@ MyCylinder.prototype.constructor = MyCylinder;
 
 	this.vertices.push(0, 0, 1);
 	this.normals.push(0, 0, 1);
-	this.texCoords.push(0, 1);
+	this.texCoords.push(1, 0);
 
 	lastVertex = this.slices  + this.slices * this.stacks + 1;
 	var lastStackVertex = this.slices * this.stacks - 1;

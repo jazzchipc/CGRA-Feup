@@ -6,7 +6,7 @@
 function MyTable(scene) {
 	CGFobject.call(this,scene);
 
-	this.cubequad = new MyUnitCubeQuad(this.scene);
+	this.cubequad = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
 	this.tableAppearance = new CGFappearance(scene);
  	this.tableAppearance.loadTexture("../resources/images/table.png")
  	this.tableAppearance.setDiffuse(0.9, 0.9, 0.9,1);

@@ -23,8 +23,6 @@ MySemiSphere.prototype.constructor = MySemiSphere;
  	var ang = Math.PI*2/this.slices;
  	var x, y;
 
-	var incS = 0;
-	var incT = 0;
 	for(var j = 0; j <= this.stacks; j++){
 		for(var i = 0; i < this.slices; i++){
 			
@@ -40,11 +38,8 @@ MySemiSphere.prototype.constructor = MySemiSphere;
 
 			this.vertices.push(x, y, z);
 			this.normals.push(x, y, z);
-			this.texCoords.push(incS, incT);
-			incS += 1/this.slices;
+			this.texCoords.push(i%2, j%2);
  		}
- 		incS = 0;
-		incT+= 1/this.stacks;
 	}
 
 	for(var j = 0; j < this.stacks; j++){

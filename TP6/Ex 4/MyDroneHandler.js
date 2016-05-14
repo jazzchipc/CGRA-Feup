@@ -7,13 +7,17 @@
 
  	this.drone = new MyDrone(scene);
 
- 	this.X = 0;
- 	this.Y = 0;
- 	this.Z = 0;
+ 	this.X = x;
+ 	this.Y = y;
+ 	this.Z = z;
  	this.angle = 0;
 
 	this.angleStep = 5;
- 	this.step = 0.2;
+	this.velocity = 0.2;
+	this.friction = 0.5;
+ 	this.slowRotation = 0.2 * 360;
+ 	this.normalRotation = 0.1 * 360;
+ 	this.fastRotation = 10 * 360;
 
  	//Animation related methods
 	this.initialTime = 0;	// Initial time in miliseconds
@@ -34,9 +38,9 @@ MyDroneHandler.prototype.setRotation = function(orientation){
 }
 
 MyDroneHandler.prototype.setTranslation = function(acceleration, y){
-    this.X += this.step*acceleration * Math.sin(this.angle*degToRad);
-    this.Y += this.step*y;
-    this.Z += this.step*acceleration * Math.cos(this.angle*degToRad);
+    this.X += this.velocity*acceleration * Math.sin(this.angle*degToRad);
+    this.Y += this.velocity*y;
+    this.Z += this.velocity*acceleration * Math.cos(this.angle*degToRad);
     
 }
 
@@ -47,7 +51,9 @@ MyDroneHandler.prototype.update = function(currTime){
 	}
 
 	else{	
-	this.elapsedTime = (currTime - this.initialTime)/1000;
+		this.elapsedTime = (currTime - this.initialTime)/1000;
+		var rotation = this.normalRotation * this.elapsedTime;
+		this.drone.setHelicesRotation(rotation, rotation, rotation ,rotation);
 	}
  }
 

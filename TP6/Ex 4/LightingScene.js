@@ -47,7 +47,7 @@ LightingScene.prototype.init = function(application) {
 	this.rightWall = new Plane(this);
 	this.leftWall = new MyQuad(this, -0.5, 1.5, -0.5, 1.5);
 	this.floor = new MyQuad(this, 0, 10, 0, 12);
-	this.boardA = new Plane(this, BOARD_A_DIVISIONS, -0.25, 1.25, 0, 1);
+	this.boardA = new Plane(this, BOARD_A_DIVISIONS, 0, 1, 0, 1);
 	this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
 	this.clock = new MyClock(this, 12, 1);
 	this.drone = new MyDroneHandler(this, 4.5, 4, 8, -180);
@@ -161,9 +161,9 @@ LightingScene.prototype.initAppearances = function() {
 
 	//drone appearances
 	this.droneAppearanceList = ['Army', 'Colorful', 'Wood', 'Metallic']
-	this.DroneBodyAppearance = 'Army';
-	this.DroneHeliceAppearance = 'Army';
-	this.DroneLegAppearance = 'Army';
+	this.DroneBodyAppearance = 'Colorful';
+	this.DroneHeliceAppearance = 'Colorful';
+	this.DroneLegAppearance = 'Colorful';
 
 }
 
@@ -222,9 +222,107 @@ LightingScene.prototype.display = function() {
 	
 	// ---- BEGIN Geometric transformation section
 
+// Floor
+	this.pushMatrix();
+		this.translate(7.5, 0, 7.5);
+		this.rotate(-90 * degToRad, 1, 0, 0);
+		this.scale(15, 15, 0.2);
+		this.floorAppearance.apply();
+		this.floor.display();
+	this.popMatrix();
+
+	this.materialDefault.apply();
+
+	// Left Wall
+	this.pushMatrix();
+		this.translate(0, 4, 7.5);
+		this.rotate(90 * degToRad, 0, 1, 0);
+		this.scale(15, 8, 0.2);
+		this.windowAppearance.apply();
+		this.leftWall.display();
+	this.popMatrix();
+
+	this.materialDefault.apply();
+
+	// Plane Wall
+	this.pushMatrix();
+		this.translate(7.5, 4, 0);
+		this.scale(15, 8, 0.2);
+		this.rightWall.display();
+	this.popMatrix();
+
+	// First Table
+	this.pushMatrix();
+	this.translate(2, 0, 6);
+	this.table.display();
+	this.popMatrix();
+
+	// Second Table
+	this.pushMatrix();
+	this.translate(9, 0, 6);
+		this.table.display();
+	this.popMatrix();
+
+	// default material apply
+	this.materialDefault.apply();
+	
+	// Board A
+	this.pushMatrix();
+	this.translate(4, 4.5, 0.2);
+	this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
+	this.slidesAppearance.apply();
+	this.boardA.display();
+	this.popMatrix();
+
+	this.materialDefault.apply();
+
+	// Board B
+	this.pushMatrix();
+	this.translate(10.5, 4.5, 0.2);
+	this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
+	this.boardAppearance.apply();
+	this.boardB.display();
+	this.popMatrix();
+
+	this.materialDefault.apply();
+
+	// cylinder 1
+	this.pushMatrix();
+	this.translate(4, 0, 12);
+	this.rotate(-90 * degToRad, 1, 0, 0)
+	this.scale(1, 1, 10);
+	this.columnAppearance.apply();
+	this.cylinder.display();
+	this.popMatrix();
+	
+	// cylinder 2
+	this.pushMatrix();
+	this.translate(12, 0, 3);
+	this.rotate(-90 * degToRad, 1, 0, 0)
+	this.scale(1, 1, 10);
+	this.cylinder.display();
+	this.popMatrix();
+
+	this.materialDefault.apply();
+
+	// lamp
+	this.pushMatrix();
+	this.translate(8, 8, 8);
+	this.rotate(-90 * degToRad, 1, 0, 0)
+	this.lamp.display();
+	this.popMatrix();
+
+	//clock
+	this.pushMatrix();
+	this.translate(7.25, 7.20, 0);
+	this.scale(0.75, 0.75, 0.15);
+	this.clock.display();
+	this.popMatrix();
+
 
 	//drone
 	this.pushMatrix();
+	this.scale(0.5, 0.5, 0.5)
 	this.drone.display();
 	this.popMatrix();
 

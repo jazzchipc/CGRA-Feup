@@ -29,22 +29,22 @@ MyDrone.prototype.display = function() {
 
 	this.textures[this.heliceTextureIndex].apply();
 	this.scene.pushMatrix();
-	this.scene.translate(0, 0.25, -2.5);
+	this.scene.translate(0, 0.15, -2.85);
 	this.northHelice.display();
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-	this.scene.translate(-2.5, 0.25, 0);
+	this.scene.translate(-2.85, 0.15, 0);
 	this.westHelice.display();
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-	this.scene.translate(2.5, 0.25, 0);
+	this.scene.translate(2.85, 0.15, 0);
 	this.eastHelice.display();
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-	this.scene.translate(0, 0.25, 2.5);
+	this.scene.translate(0, 0.15, 2.85);
 	this.southHelice.display();
 	this.scene.popMatrix();
 }
@@ -83,4 +83,11 @@ MyDrone.prototype.initTextures = function(scene){
 	this.bodyTextureIndex = 0;
 	this.legTextureIndex = 0;
 	this.heliceTextureIndex = 0;
+}
+
+MyDrone.prototype.setHelicesRotation = function(northRot, southRot, eastRot, westRot){
+	this.northHelice.setAngle(northRot);
+	this.southHelice.setAngle(southRot);
+	this.eastHelice.setAngle(-eastRot);
+	this.westHelice.setAngle(-westRot);
 }
