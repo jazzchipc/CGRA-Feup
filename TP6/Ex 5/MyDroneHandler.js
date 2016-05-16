@@ -65,7 +65,7 @@ MyDroneHandler.prototype.setRotation = function(orientation){
 
 MyDroneHandler.prototype.move = function(orientation){
 	if(this.motionState == this.motionTrajectory.Stopped){
-		if(this.orientation == 1){
+		if(orientation == 1){
 			this.motionState = this.motionTrajectory.Forward;
 		} else this.motionState = this.motionTrajectory.Backward;
 		this.motionTime = 0;
@@ -75,7 +75,7 @@ MyDroneHandler.prototype.move = function(orientation){
 
 MyDroneHandler.prototype.fly = function(orientation){
 	if(this.floatState == this.floatTrajectory.Stopped){
-		if(this.orientation == 1){
+		if(orientation == 1){
 			this.floatState = this.floatTrajectory.Upward;
 		} else this.floatState = this.floatTrajectory.Downward;
 		this.floatTime = 0;
@@ -96,15 +96,20 @@ MyDroneHandler.prototype.update = function(currTime){
 	
 		if(this.motionState == this.motionTrajectory.Forward){
 			this.motionTime = this.elapsedTime - this.motionTimeStart;
-			this.motionVelocity = (this.maxVelocity * (Math.exp(2* this.maxVelocity * this.motionTime)- 1))/(Math.exp(2* this.maxVelocity * this.motionTime) + 1);
+			this.motionVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime) + 1);
 
 			if(this.motionTime > this.maxTime){
 				this.motionState = this.motionTrajectory.Halting;
 			}
 		} else if(this.motionState == this.motionTrajectory.Backward){
-
+			this.motionTime = this.elapsedTime - this.motionTimeStart;
+			this.motionVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime) + 1);
+			this.motionVelocity *= -1;
+			if(this.motionTime > this.maxTime){
+				this.motionState = this.motionTrajectory.Halting;
+			}
 		} else if(this.motionState == this.motionTrajectory.Halting){
-
+			
 		} else{
 			this.motionVelocity = 0;
 		}
@@ -118,7 +123,12 @@ MyDroneHandler.prototype.update = function(currTime){
 				this.floatState = this.floatTrajectory.Halting;
 			}
 		} else if(this.floatState == this.floatTrajectory.Downward){
-
+			this.floatTime = this.elapsedTime - this.floatTimeStart;
+			this.floatVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.floatTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.floatTime) + 1);
+			this.floatVelocity *= -1;
+			if(this.floatTime > this.maxTime){
+				this.floatState = this.floatTrajectory.Halting;
+			}
 		} else if(this.floatState == this.floatTrajectory.Halting){
 
 		} else{

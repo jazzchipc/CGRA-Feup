@@ -49,11 +49,7 @@ LightingScene.prototype.init = function(application) {
 	this.floor = new MyQuad(this, 0, 10, 0, 12);
 	this.boardA = new Plane(this, BOARD_A_DIVISIONS, 0, 1, 0, 1);
 	this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
-	
 	this.clock = new MyClock(this, 12, 1);
-	this.currClockTime = 0;	// clock time has to be saved, for when it's stopped
-	this.elapsedClockTime = 0; // time that has passed since clock has been stopped
-
 	this.drone = new MyDroneHandler(this, 4.5, 4, 8, -180);
 
 	this.initAppearances();
@@ -97,16 +93,8 @@ LightingScene.prototype.update = function(currTime){
 
 	this.drone.updateTexturesIndex(bodyIndex, legIndex, heliceIndex);
 
-	if(this.animateClock)	// counts towards clock time
-	{
-		this.currClockTime = currTime - this.elapsedClockTime;
-		this.clock.update(this.currClockTime);
-	}
-	else	// counts towards lost time
-	{
-		this.elapsedClockTime = currTime - this.currClockTime;
-	}
-
+	if(this.animateClock)
+		this.clock.update(currTime);
 	this.drone.update(currTime);
 }
 
