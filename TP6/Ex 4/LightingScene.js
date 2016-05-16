@@ -57,7 +57,7 @@ LightingScene.prototype.init = function(application) {
 	this.initAppearances();
 
 	//Set update function
-	this.updatePeriod = 60;
+	this.updatePeriod = 1/60 * 1000;	// update period in ms (1/60 * 1000 ms = 60 Hz)
 	this.setUpdatePeriod(this.updatePeriod);
 
 };
