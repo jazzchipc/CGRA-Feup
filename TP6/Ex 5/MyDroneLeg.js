@@ -6,8 +6,7 @@
  	CGFobject.call(this,scene);
 	
 	this.base = new MyUnitCubeQuad(scene, 0, 1, 0, 1);
-	this.rightArch = new MyArch(scene);
-	this.leftArch = new MyArch(scene);
+	this.arch = new MyArch(scene);
  };
 
 MyDroneLeg.prototype = Object.create(CGFobject.prototype);
@@ -31,8 +30,20 @@ MyDroneLeg.prototype.display = function() {
 	this.base.display();
 	this.scene.popMatrix();
 
+	//Arches
+
+	//North arch (lower Z)
 	this.scene.pushMatrix();
-	//this.rightArch.display();
+	this.scene.translate(-1.5, -2, -0.5);
+	this.scene.scale(3, 3.5, 2);
+	this.arch.display();
+	this.scene.popMatrix();
+
+	//South arch (higher Z)
+	this.scene.pushMatrix();
+	this.scene.translate(-1.5, -2, 0.5);
+	this.scene.scale(3, 3.5, 2);
+	this.arch.display();
 	this.scene.popMatrix();
 }
 

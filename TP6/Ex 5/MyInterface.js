@@ -69,22 +69,28 @@ MyInterface.prototype.processKeyboard = function(event) {
 	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
 	switch (event.keyCode)
 	{
-		case (65):	// only works for capital 'A', as it is
+		case (65):	
+		case (65+32):	// 'A' or 'a'
 			this.scene.drone.setRotation(1);
 			break;
-		case(68): // only works for capital 'D', as it is
+		case(68):
+		case(68+32):	// 'D' or 'd'
 			this.scene.drone.setRotation(-1);
 			break;
-		case(87): // only works for capital 'W', as it is
+		case(87):
+		case(87+32):	// 'W' or 'w'
 			this.scene.drone.move(1);
 			break;
-		case(83): // only works for capital 'S', as it is
+		case(83):
+		case(83+32):	// 'S' or 's'
 			this.scene.drone.move(-1);
 			break;
-		case(73): // only works for capital 'I', as it is
+		case(73):
+		case(73+32): 	// 'I' or 'i'
 			this.scene.drone.fly(1)
 			break;
-		case(74): // only works for capital 'J', as it is
+		case(74):
+		case(74+32):	// 'J' or 'j'
 			this.scene.drone.fly(-1)
 			break;
 	};
