@@ -43,10 +43,17 @@ MyClock.prototype = Object.create(CGFobject.prototype);
 MyClock.prototype.constructor = MyClock;
 
  MyClock.prototype.display = function() {
+
+	//Cylinder display
+	this.scene.pushMatrix();
+    this.materialDefault.apply();
+    this.scene.scale(1, 1, 0.9);	//had to be slightly resized, or face wouldn't be visibible
+ 	this.cylinder.display();
+ 	this.scene.popMatrix();
+
+	//Cylinder face display
     this.clockAppearance.apply();
     this.circle.display();
-    this.materialDefault.apply();
- 	this.cylinder.display();
 
 	this.blackAppearance.apply();
 
