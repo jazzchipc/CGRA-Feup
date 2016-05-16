@@ -6,13 +6,15 @@
  function MyArch(scene) {
  	CGFobject.call(this,scene);
 	
-	this.p0 = [0,1];	// point of beggining of the curve
+	this.p0 = [0,0];	// point of beggining of the curve
 	this.p1 = [1,0];	// point of end of curve
-	this.p = [1,4];	// point which adjusts the curve
+	this.p = [0.5, 1];	// point which adjusts the curve
 	
-	this.width = 1;		// width of the arc in Z direction
-
-	this.precision = 0.05;
+	this.width = 0.05;		// width of the arch in Z direction
+	
+	this.precision = 1/22;	// ATTENTION: Precision has ceratin values for which the arch won't be drawn.
+							// I believe it has to do with approximation errors in the cycle that pushes vertices.
+							// Probably it runs one time less than it should.
 	
  	this.initBuffers();
  };
@@ -30,7 +32,7 @@ MyArch.prototype.initBuffers = function() {
 	var ang = Math.PI*2/this.slices;
  	var xt, yt;
 
-	for(var t = 0; t < 1; t += this.precision)
+	for(var t = 0; t <= 1; t += this.precision)
 	{
 		// Bezier Equations
 		xt = Math.pow(1-t, 2) * this.p0[0] + 2 * (1-t) * t * this.p[0] + Math.pow(t, 2) * this.p1[0];
@@ -53,7 +55,7 @@ MyArch.prototype.initBuffers = function() {
 	The first push draws the first half of the rectangle. The second draws the second.
 	The second push order is inverted, so that the face turns the right way.
 	*/
-	for(var i = 0; i <= 1/this.precision * 2 - 3; i+=2)
+	for(var i = 0; i <= 1/this.precision * 2 - 2; i+=2)
 	{
 	    this.indices.push(i, i+1, i+2);
 	    this.indices.push(i+1, i+3, i+2);
