@@ -100,16 +100,19 @@ MyDroneHandler.prototype.update = function(currTime){
 
 			if(this.motionTime > this.maxTime){
 				this.motionState = this.motionTrajectory.Halting;
+				console.log(this.motionVelocity);
 			}
 		} else if(this.motionState == this.motionTrajectory.Backward){
-			this.motionTime = this.elapsedTime - this.motionTimeStart;
-			this.motionVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime) + 1);
-			this.motionVelocity *= -1;
 			if(this.motionTime > this.maxTime){
 				this.motionState = this.motionTrajectory.Halting;
 			}
+			this.motionTime = this.elapsedTime - this.motionTimeStart;
+			this.motionVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime) + 1);
+			this.motionVelocity *= -1;
 		} else if(this.motionState == this.motionTrajectory.Halting){
-			
+			if(Math.abs(this.motionVelocity) < 0.01)
+				this.motionState = this.motionTrajectory.Stopped;
+			this.motionVelocity *= 0.95;
 		} else{
 			this.motionVelocity = 0;
 		}
@@ -123,14 +126,16 @@ MyDroneHandler.prototype.update = function(currTime){
 				this.floatState = this.floatTrajectory.Halting;
 			}
 		} else if(this.floatState == this.floatTrajectory.Downward){
-			this.floatTime = this.elapsedTime - this.floatTimeStart;
-			this.floatVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.floatTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.floatTime) + 1);
-			this.floatVelocity *= -1;
 			if(this.floatTime > this.maxTime){
 				this.floatState = this.floatTrajectory.Halting;
 			}
+			this.floatTime = this.elapsedTime - this.floatTimeStart;
+			this.floatVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.floatTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.floatTime) + 1);
+			this.floatVelocity *= -1;
 		} else if(this.floatState == this.floatTrajectory.Halting){
-
+			if(Math.abs(this.floatVelocity) < 0.01)
+				this.floatState = this.floatTrajectory.Stopped;
+			this.floatVelocity *= 0.95;
 		} else{
 			this.floatVelocity = 0;
 		}
