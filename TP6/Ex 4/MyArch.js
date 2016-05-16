@@ -11,7 +11,7 @@
 	this.p = [0.5, 1];	// point which adjusts the curve
 	
 	this.width = 0.05;		// width of the arch in Z direction
-	
+
 	this.precision = 1/22;	// ATTENTION: Precision has ceratin values for which the arch won't be drawn.
 							// I believe it has to do with approximation errors in the cycle that pushes vertices.
 							// Probably it runs one time less than it should.
@@ -59,6 +59,13 @@ MyArch.prototype.initBuffers = function() {
 	{
 	    this.indices.push(i, i+1, i+2);
 	    this.indices.push(i+1, i+3, i+2);
+ 	} 
+
+ 	/*This cycle draws the inner arch, so it can be seen both ways.*/
+ 	for(var i = 0; i <= 1/this.precision * 2 - 2; i+=2)
+	{
+	    this.indices.push(i+2, i+1, i);
+	    this.indices.push(i+2, i+3, i+1);
  	} 
 
 
