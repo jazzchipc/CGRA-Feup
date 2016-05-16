@@ -52,6 +52,8 @@ LightingScene.prototype.init = function(application) {
 	this.clock = new MyClock(this, 12, 1);
 	this.drone = new MyDroneHandler(this, 4.5, 4, 8, -180);
 
+	this.testArch = new MyArch(this);
+
 	this.initAppearances();
 
 	//Set update function
