@@ -31,6 +31,6 @@ MyDroneHelice.prototype.display = function() {
 	this.scene.popMatrix();
 }
 
-MyDroneHelice.prototype.setAngle = function(angleStep) {
-	this.angle += angleStep;
+MyDroneHelice.prototype.setAngle = function(angle) {
+	this.angle = angle;
 }
