@@ -62,6 +62,7 @@ MyDroneHandler.prototype.display = function() {
 
 MyDroneHandler.prototype.setRotation = function(orientation){
   this.angle += this.angleStep*orientation;
+  this.drone.setHelicesRotationSpeed(this.slowRotation, this.slowRotation, this.fastRotation, this.fastRotation)
 }
 
 MyDroneHandler.prototype.setRotationFactor = function(rotationFactor){
@@ -88,6 +89,14 @@ MyDroneHandler.prototype.fly = function(orientation){
 	}
 }
 
+MyDroneHandler.prototype.retrieveHook = function(){
+	this.drone.hook.scaleHook(0.95);
+}
+
+MyDroneHandler.prototype.releaseHook = function(){
+	this.drone.hook.scaleHook(1.05);
+}
+
 MyDroneHandler.prototype.update = function(currTime){
 	if (this.initialTime == 0)
 	{
@@ -96,9 +105,7 @@ MyDroneHandler.prototype.update = function(currTime){
 
 	else{	
 		this.elapsedTime = (currTime - this.initialTime)/1000;
-		var rotation =  this.normalRotation * this.elapsedTime;
-		rotation *= this.rotationFactor;
-		this.drone.setHelicesRotation(rotation, rotation, rotation ,rotation);
+		this.drone.setHelicesAngle(this.elapsedTime, this.rotationFactor);
 	
 		if(this.motionState == this.motionTrajectory.Forward){
 			this.motionTime = this.elapsedTime - this.motionTimeStart;

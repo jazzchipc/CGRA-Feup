@@ -55,7 +55,8 @@ LightingScene.prototype.init = function(application) {
 	this.elapsedClockTime = 0; // time that has passed since clock has been stopped
 
 	this.clock = new MyClock(this, 12, 1);
-	this.drone = new MyDroneHandler(this, 4.5, 4, 8, -180);
+	this.drone = new MyDroneHandler(this, 15, 4, 15, -180);
+	this.cargo = new MyCargo(this, 4.35, 4, 3.35);
 
 	this.initAppearances();
 
@@ -118,7 +119,7 @@ LightingScene.prototype.initCameras = function() {
 
 LightingScene.prototype.initLights = function() {
 	//this.setGlobalAmbientLight(0.5,0.5,0.5, 1.0);
-	this.setGlobalAmbientLight(0,0,0, 1.0);
+	this.setGlobalAmbientLight(1,1,1, 1.0);
 	
 	// Positions for four lights
 	this.lights[0].setPosition(4, 6, 1, 1);
@@ -267,13 +268,13 @@ LightingScene.prototype.display = function() {
 
 	// First Table
 	this.pushMatrix();
-	this.translate(2, 0, 6);
+	this.translate(2, 0, 2);
 	this.table.display();
 	this.popMatrix();
 
 	// Second Table
 	this.pushMatrix();
-	this.translate(9, 0, 6);
+	this.translate(9, 0, 11);
 		this.table.display();
 	this.popMatrix();
 
@@ -302,7 +303,7 @@ LightingScene.prototype.display = function() {
 
 	// cylinder 1
 	this.pushMatrix();
-	this.translate(4, 0, 12);
+	this.translate(2, 0, 13);
 	this.rotate(-90 * degToRad, 1, 0, 0)
 	this.scale(1, 1, 10);
 	this.columnAppearance.apply();
@@ -311,7 +312,7 @@ LightingScene.prototype.display = function() {
 	
 	// cylinder 2
 	this.pushMatrix();
-	this.translate(12, 0, 3);
+	this.translate(13, 0, 2);
 	this.rotate(-90 * degToRad, 1, 0, 0)
 	this.scale(1, 1, 10);
 	this.cylinder.display();
@@ -321,7 +322,7 @@ LightingScene.prototype.display = function() {
 
 	// lamp
 	this.pushMatrix();
-	this.translate(8, 8, 8);
+	this.translate(7.5, 7.5, 7.5);
 	this.rotate(-90 * degToRad, 1, 0, 0)
 	this.lamp.display();
 	this.popMatrix();
@@ -333,12 +334,18 @@ LightingScene.prototype.display = function() {
 	this.clock.display();
 	this.popMatrix();
 
-
 	//drone
 	this.pushMatrix();
 	this.scale(0.5, 0.5, 0.5)
 	this.drone.display();
 	this.popMatrix();
+	
+	//cargo
+	this.materialDefault.apply();
+	this.pushMatrix();
+	this.cargo.display();
+	this.popMatrix();
+	
 
 	// ---- END Geometric transformation section
 

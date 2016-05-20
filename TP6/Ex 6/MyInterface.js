@@ -93,6 +93,14 @@ MyInterface.prototype.processKeyboard = function(event) {
 		case(74+32):	// 'J' or 'j'
 			this.scene.drone.fly(-1)
 			break;
+		case(80):
+		case(80+32):	// 'P' or 'P'
+			this.scene.drone.retrieveHook();
+			break;
+		case(76):
+		case(76+32):	// 'L' or 'L'
+			this.scene.drone.releaseHook();
+			break;
 	};
 };
 
