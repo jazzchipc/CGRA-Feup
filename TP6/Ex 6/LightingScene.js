@@ -56,7 +56,8 @@ LightingScene.prototype.init = function(application) {
 
 	this.clock = new MyClock(this, 12, 1);
 	this.drone = new MyDroneHandler(this, 15, 4, 15, -180);
-	this.cargo = new MyCargo(this, 4.35, 4, 3.35);
+	this.cargo = new MyCargo(this, 4.35, 4.30, 3.35);
+	this.loadingZone = new MyLoadingZone(this, 13, 0, 7.5);
 
 	this.initAppearances();
 
@@ -344,6 +345,12 @@ LightingScene.prototype.display = function() {
 	this.materialDefault.apply();
 	this.pushMatrix();
 	this.cargo.display();
+	this.popMatrix();
+	
+	//loadingZone
+	this.materialDefault.apply();
+	this.pushMatrix();
+	this.loadingZone.display();
 	this.popMatrix();
 	
 

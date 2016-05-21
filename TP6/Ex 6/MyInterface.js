@@ -55,27 +55,19 @@ MyInterface.prototype.init = function(application) {
 	return true;
 };
 
-/**
- * processKeyboard
- * @param event {Event}
- */
-MyInterface.prototype.processKeyboard = function(event) {
+MyInterface.prototype.processKeyDown = function(event) {
 	// call CGFinterface default code (omit if you want to override)
-	CGFinterface.prototype.processKeyboard.call(this,event);
+	CGFinterface.prototype.processKeyDown.call(this,event);
 	
-	// Check key codes e.g. here: http://www.asciitable.com/
-	// or use String.fromCharCode(event.keyCode) to compare chars
-	
-	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
 	switch (event.keyCode)
 	{
 		case (65):	
 		case (65+32):	// 'A' or 'a'
-			this.scene.drone.setRotation(1);
+			this.scene.drone.rotate(1);
 			break;
 		case(68):
 		case(68+32):	// 'D' or 'd'
-			this.scene.drone.setRotation(-1);
+			this.scene.drone.rotate(-1);
 			break;
 		case(87):
 		case(87+32):	// 'W' or 'w'
@@ -102,5 +94,38 @@ MyInterface.prototype.processKeyboard = function(event) {
 			this.scene.drone.releaseHook();
 			break;
 	};
-};
+}
+
+MyInterface.prototype.processKeyUp = function(event) {
+	// call CGFinterface default code (omit if you want to override)
+	CGFinterface.prototype.processKeyDown.call(this,event);
+	
+	switch (event.keyCode)
+	{
+		case (65):	
+		case (65+32):	// 'A' or 'a'
+			this.scene.drone.staticMovement();
+			break;
+		case(68):
+		case(68+32):	// 'D' or 'd'
+			this.scene.drone.staticMovement();
+			break;
+		case(87):
+		case(87+32):	// 'W' or 'w'
+			this.scene.drone.stopMove();
+			break;
+		case(83):
+		case(83+32):	// 'S' or 's'
+			this.scene.drone.stopMove();
+			break;
+		case(73):
+		case(73+32): 	// 'I' or 'i'
+			this.scene.drone.stopFly()
+			break;
+		case(74):
+		case(74+32):	// 'J' or 'j'
+			this.scene.drone.stopFly()
+			break;
+	};
+}
 

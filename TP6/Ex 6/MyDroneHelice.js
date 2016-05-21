@@ -7,8 +7,9 @@
 	
 	this.center = new MySemiSphere(scene, 8, 4); 
 	this.spade = new MyCylinder(scene, 8, 1); 
-	this.angle = 180;
+	this.angle = 0;
 	this.rotationSpeed = 1 * 360;
+	this.speed = 1 * 360;
  };
 
 MyDroneHelice.prototype = Object.create(CGFobject.prototype);
@@ -16,7 +17,6 @@ MyDroneHelice.prototype.constructor = MyDroneHelice;
 
 MyDroneHelice.prototype.display = function() {
 	
-
 	//spade
     this.scene.pushMatrix();
     this.scene.rotate(this.angle * degToRad, 0,1, 0)
@@ -34,8 +34,14 @@ MyDroneHelice.prototype.display = function() {
 	this.scene.popMatrix();
 }
 
-MyDroneHelice.prototype.setAngle = function(angle) {
-	this.angle = angle * this.rotationSpeed;
+MyDroneHelice.prototype.update = function(angle){
+	if(this.rotationSpeed > this.speed){
+		this.speed += 6;
+	}else if(this.rotationSpeed < this.speed){
+		this.speed -= 6;
+	} 
+	this.angle = angle * this.speed;
+	
 }
 
 MyDroneHelice.prototype.setRotationSpeed = function(speed) {

@@ -89,10 +89,10 @@ MyDrone.prototype.initTextures = function(scene){
 
 MyDrone.prototype.setHelicesAngle = function(elapsedTime, rotationFactor){
 	var aux = elapsedTime * rotationFactor;
-	this.northHelice.setAngle(aux);
-	this.southHelice.setAngle(aux);
-	this.eastHelice.setAngle(-aux);
-	this.westHelice.setAngle(-aux);
+	this.northHelice.update(aux);
+	this.southHelice.update(aux);
+	this.eastHelice.update(-aux);
+	this.westHelice.update(-aux);
 }
 
 MyDrone.prototype.setHelicesRotationSpeed = function(northHelice, southHelice, eastHelice, westHelice){

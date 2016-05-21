@@ -25,6 +25,7 @@ serialInclude([
 	'MyArch.js',
 	'MyDroneHook.js',
 	'MyCargo.js',
+	'MyLoadingZone.js',
 
 	main=function() {
 		var app = new CGFapplication(document.body);

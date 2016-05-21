@@ -5,6 +5,7 @@
  function MyCargo(scene, x, y, z) {
  	CGFobject.call(this,scene);
 	this.cargo = new MyUnitCubeQuad(scene, 0, 1, 0, 1); 
+	//center coordinates
     this.X = x;
     this.Y = y;
     this.Z = z;

@@ -39,6 +39,8 @@ MyDroneHook.prototype.display = function() {
 }
 
 MyDroneHook.prototype.scaleHook = function(scale){
-	this.cableScale *= scale;
+	this.cableScale += scale;
+	if(this.cableScale < 0.15)
+		this.cableScale = 0.15;
 	this.z = this.hookLength + this.cableScale * 0.15;
 }
