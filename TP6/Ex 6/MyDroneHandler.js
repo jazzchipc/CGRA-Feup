@@ -6,7 +6,6 @@
  	CGFobject.call(this,scene);
 
  	this.drone = new MyDrone(scene);
- 	this.cargo = null;
 
  	this.X = x;
  	this.Y = y;
@@ -66,12 +65,6 @@ MyDroneHandler.prototype.constructor = MyDroneHandler;
 MyDroneHandler.prototype.display = function() {
     this.scene.translate(this.X, this.Y, this.Z );
     this.scene.rotate(this.angle*degToRad, 0, 1, 0);
-    if(this.cargo != null){
-    	this.scene.pushMatrix();
-    	this.scene.scale(1.5, 1.5, 1.5)
-    	this.cargo.display();
-    	this.scene.popMatrix();
-    }
     this.drone.display();
 }
 
@@ -213,18 +206,17 @@ MyDroneHandler.prototype.update = function(currTime){
  }
 
  MyDroneHandler.prototype.checkCargoLoad = function(SceneCargo){
- 	if(this.packageState == this.delivery.Collecting)
- 		if(SceneCargo.Y < this.drone.hook.y && this.drone.hook.y < (SceneCargo.Y + 0.1)
- 			|| SceneCargo.Y > this.drone.hook.y && this.drone.hook.y > (SceneCargo.Y - 0.1)){
+ 	if(SceneCargo.Y < this.drone.hook.y && this.drone.hook.y < (SceneCargo.Y + 0.1)
+ 		|| SceneCargo.Y > this.drone.hook.y && this.drone.hook.y > (SceneCargo.Y - 0.1)){
  		
- 			var circle = {x:this.drone.hook.x, z:this.drone.hook.z, radius:this.drone.hook.radius};
- 			var rectangle = {x:SceneCargo.X, z:SceneCargo.Z, length:1};
-			var collision = RectCircleColliding(circle, rectangle);
-			if(collision){
-				this.cargo = SceneCargo;
-				this.packageState = this.delivery.Delivering;
-			}
- 		}
+ 		var circle = {x:this.drone.hook.x, z:this.drone.hook.z, radius:this.drone.hook.radius};
+ 		var rectangle = {x:SceneCargo.X, z:SceneCargo.Z, length:1};
+		var collision = RectCircleColliding(circle, rectangle);
+		if(collision){
+			this.cargo = SceneCargo;
+			this.packageState = this.delivery.Delivering;
+		}
+ 	}
  }
 
 

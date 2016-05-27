@@ -98,7 +98,9 @@ LightingScene.prototype.update = function(currTime){
 		case 'Metallic': heliceIndex = 3; break;
 	}
 
-	this.drone.checkCargoLoad(this.cargo);
+	if(this.drone.packageState == this.drone.delivery.Collecting){
+		this.drone.checkCargoLoad(this.cargo);
+	}
 
 	this.drone.updateTexturesIndex(bodyIndex, legIndex, heliceIndex);
 	this.drone.setRotationFactor(this.RotationFactor);
@@ -114,6 +116,13 @@ LightingScene.prototype.update = function(currTime){
 	}
 
 	this.drone.update(currTime);
+	
+	if (this.drone.packageState == this.drone.delivery.Delivering){
+		var xInc = this.drone.motionVelocity * Math.sin(this.drone.angle*degToRad);
+		var yInc = this.drone.motionVelocity * Math.cos(this.drone.angle*degToRad);
+		var zInc = this.drone.floatVelocity;
+		this.cargo.updateCoordinates(xInc, yInc, zInc);
+	}
 }
 
 LightingScene.prototype.initCameras = function() {
@@ -346,8 +355,7 @@ LightingScene.prototype.display = function() {
 	//cargo
 	this.materialDefault.apply();
 	this.pushMatrix();
-	if(this.drone.cargo == null)
-		this.cargo.display();
+	this.cargo.display();
 	this.popMatrix();
 	
 	//loadingZone

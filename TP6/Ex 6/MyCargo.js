@@ -27,3 +27,9 @@ MyCargo.prototype.display = function() {
 	this.cargo.display();
 	this.scene.popMatrix();
 }
+
+MyCargo.prototype.updateCoordinates = function(xInc, yInc, zInc) {
+	this.X += xInc/2;
+	this.Y += yInc/2;
+	this.Z += zInc/2;
+}
