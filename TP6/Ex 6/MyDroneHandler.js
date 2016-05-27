@@ -12,6 +12,11 @@
  	this.Z = z;
  	this.drone.hook.updateCoordinates(this.X/2, this.Y/2, this.Z/2);
  	this.angle = 0;
+	
+	//Pitch - angles in degrees
+	this.pitchAngle = 0;
+	this.pitchAngleStep = 1;
+	this.pitchCounterAngleStep = this.pitchAngle / 10;
 
 	this.angleStep = 5;
 	this.motionVelocity = 0;
@@ -65,6 +70,7 @@ MyDroneHandler.prototype.constructor = MyDroneHandler;
 MyDroneHandler.prototype.display = function() {
     this.scene.translate(this.X, this.Y, this.Z );
     this.scene.rotate(this.angle*degToRad, 0, 1, 0);
+	this.scene.rotate(this.pitchAngle*degToRad, 1, 0, 0);
     this.drone.display();
 }
 
@@ -150,7 +156,13 @@ MyDroneHandler.prototype.update = function(currTime){
 		if(this.motionState == this.motionTrajectory.Forward){
 			this.motionTime = this.elapsedTime - this.motionTimeStart;
 			this.motionVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime) + 1);
-
+		 
+			//Pitch
+			if(this.pitchAngle < 30)
+			{
+				this.pitchAngle = this.pitchAngle + this.pitchAngleStep;
+			}
+			
 			if(this.motionTime > this.maxTime){
 				this.motionState = this.motionTrajectory.Halting;
 				console.log(this.motionVelocity);
@@ -159,13 +171,29 @@ MyDroneHandler.prototype.update = function(currTime){
 			this.motionTime = this.elapsedTime - this.motionTimeStart;
 			this.motionVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime) + 1);
 			this.motionVelocity *= -1;
+			
+			//Pitch
+			if(this.pitchAngle > -30)
+			{
+				this.pitchAngle = this.pitchAngle - this.pitchAngleStep;
+			}
+			
 			if(this.motionTime > this.maxTime){
 				this.motionState = this.motionTrajectory.Halting;
 			}
 		} else if(this.motionState == this.motionTrajectory.Halting){
+			this.motionTime = this.elapsedTime - this.motionTimeStart;
 			if(Math.abs(this.motionVelocity) < 0.01)
 				this.motionState = this.motionTrajectory.Stopped;
 			this.motionVelocity *= 0.95;
+			
+			//Pitch
+			if(Math.abs(this.pitchAngle) != 0)
+			{
+				this.pitchCounterAngleStep = Math.abs(this.pitchAngle / 10);
+				this.pitchAngle = this.pitchAngle - (Math.sign(this.pitchAngle) * this.pitchCounterAngleStep);	
+			}
+			
 		} else{
 			this.motionVelocity = 0;
 		}
