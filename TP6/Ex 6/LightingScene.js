@@ -98,6 +98,8 @@ LightingScene.prototype.update = function(currTime){
 		case 'Metallic': heliceIndex = 3; break;
 	}
 
+	this.drone.checkCargoLoad(this.cargo);
+
 	this.drone.updateTexturesIndex(bodyIndex, legIndex, heliceIndex);
 	this.drone.setRotationFactor(this.RotationFactor);
 	
@@ -344,7 +346,8 @@ LightingScene.prototype.display = function() {
 	//cargo
 	this.materialDefault.apply();
 	this.pushMatrix();
-	this.cargo.display();
+	if(this.drone.cargo == null)
+		this.cargo.display();
 	this.popMatrix();
 	
 	//loadingZone

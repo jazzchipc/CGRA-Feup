@@ -6,10 +6,12 @@
  	CGFobject.call(this,scene);
 
  	this.drone = new MyDrone(scene);
+ 	this.cargo = null;
 
  	this.X = x;
  	this.Y = y;
  	this.Z = z;
+ 	this.drone.hook.updateCoordinates(this.X/2, this.Y/2, this.Z/2);
  	this.angle = 0;
 
 	this.angleStep = 5;
@@ -43,8 +45,15 @@
  	      Stopped:4
  	}
 
+ 	this.delivery ={
+ 	      Collecting:1,
+ 	      Delivering:2,
+ 	      Delivered:3,
+ 	}
+
  	this.motionState = this.motionTrajectory.Stopped;
  	this.floatState = this.floatTrajectory.Stopped;
+ 	this.packageState = this.delivery.Collecting;
 
  	//Animation related methods
 	this.initialTime = 0;	// Initial time in miliseconds
@@ -57,6 +66,12 @@ MyDroneHandler.prototype.constructor = MyDroneHandler;
 MyDroneHandler.prototype.display = function() {
     this.scene.translate(this.X, this.Y, this.Z );
     this.scene.rotate(this.angle*degToRad, 0, 1, 0);
+    if(this.cargo != null){
+    	this.scene.pushMatrix();
+    	this.scene.scale(1.5, 1.5, 1.5)
+    	this.cargo.display();
+    	this.scene.popMatrix();
+    }
     this.drone.display();
 }
 
@@ -122,11 +137,11 @@ MyDroneHandler.prototype.stopFly = function(){
 }
 
 MyDroneHandler.prototype.retrieveHook = function(){
-	this.drone.hook.scaleHook(-0.1);
+	this.drone.hook.scaleHook(-0.3);
 }
 
 MyDroneHandler.prototype.releaseHook = function(){
-	this.drone.hook.scaleHook(0.1);
+	this.drone.hook.scaleHook(0.3);
 }
 
 MyDroneHandler.prototype.update = function(currTime){
@@ -187,6 +202,7 @@ MyDroneHandler.prototype.update = function(currTime){
 		this.X += this.motionVelocity * Math.sin(this.angle*degToRad);
 		this.Z += this.motionVelocity * Math.cos(this.angle*degToRad);
 		this.Y += this.floatVelocity;
+ 		this.drone.hook.updateCoordinates(this.X/2, this.Y / 2, this.Z/2);
 	}
  }
 
@@ -195,3 +211,42 @@ MyDroneHandler.prototype.update = function(currTime){
  	this.drone.legTextureIndex = legIndex;
  	this.drone.heliceTextureIndex = heliceIndex;
  }
+
+ MyDroneHandler.prototype.checkCargoLoad = function(SceneCargo){
+ 	if(this.packageState == this.delivery.Collecting)
+ 		if(SceneCargo.Y < this.drone.hook.y && this.drone.hook.y < (SceneCargo.Y + 0.1)
+ 			|| SceneCargo.Y > this.drone.hook.y && this.drone.hook.y > (SceneCargo.Y - 0.1)){
+ 		
+ 			var circle = {x:this.drone.hook.x, z:this.drone.hook.z, radius:this.drone.hook.radius};
+ 			var rectangle = {x:SceneCargo.X, z:SceneCargo.Z, length:1};
+			var collision = RectCircleColliding(circle, rectangle);
+			if(collision){
+				this.cargo = SceneCargo;
+				this.packageState = this.delivery.Delivering;
+			}
+ 		}
+ }
+
+
+function RectCircleColliding(circle, rectangle){
+	//distances between the circle’s center and the rectangle’s center
+	var halfRectangleLength = rectangle.length/2;
+    var distX = Math.abs(circle.x - rectangle.x-halfRectangleLength);
+    var distZ = Math.abs(circle.z - rectangle.z-halfRectangleLength);
+
+	//If the distance is greater than halfCircle + halfRect means that they are too far apart to be colliding
+    if (distX > (halfRectangleLength + circle.radius))
+    	return false; 
+    if (distZ > (halfRectangleLength + circle.radius))
+    	return false;
+
+	//If the distance is less than halfRect then they are definitely colliding
+    if (distX <= (rectangle.length/2))
+    	return true;
+    if (distZ <= (rectangle.length/2))
+    	return true;
+
+    var dx=distX-rectangle.length/2;
+    var dz=distZ-rectangle.length/2;
+    return (dx*dx+dz*dz<=(circle.radius*circle.rradius));
+}

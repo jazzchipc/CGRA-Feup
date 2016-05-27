@@ -7,7 +7,7 @@
 	this.cargo = new MyUnitCubeQuad(scene, 0, 1, 0, 1); 
 	//center coordinates
     this.X = x;
-    this.Y = y;
+    this.Y = y + 0.5;
     this.Z = z;
     
     this.paperAppearance = new CGFappearance(scene);
@@ -22,7 +22,7 @@ MyCargo.prototype.constructor = MyCargo;
 
 MyCargo.prototype.display = function() {
 	this.scene.pushMatrix();
-    this.scene.translate(this.X, this.Y, this.Z);
+    this.scene.translate(this.X, this.Y - 0.5, this.Z);
     this.paperAppearance.apply();
 	this.cargo.display();
 	this.scene.popMatrix();
