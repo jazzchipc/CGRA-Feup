@@ -234,6 +234,12 @@ MyDroneHandler.prototype.update = function(currTime){
  }
 
  MyDroneHandler.prototype.checkCargoLoad = function(SceneCargo){
+ 	console.log('Cargo x value: ', SceneCargo.X);
+ 	console.log('Cargo Y value: ', SceneCargo.Y);
+ 	console.log('Cargo Z value: ', SceneCargo.Z);
+ 	console.log('hook x value: ', this.drone.hook.x);
+ 	console.log('hook Y value: ', this.drone.hook.y);
+ 	console.log('hook Z value: ', this.drone.hook.z);
  	if(SceneCargo.Y < this.drone.hook.y && this.drone.hook.y < (SceneCargo.Y + 0.1)
  		|| SceneCargo.Y > this.drone.hook.y && this.drone.hook.y > (SceneCargo.Y - 0.1)){
  		
@@ -241,7 +247,6 @@ MyDroneHandler.prototype.update = function(currTime){
  		var rectangle = {x:SceneCargo.X, z:SceneCargo.Z, length:1};
 		var collision = RectCircleColliding(circle, rectangle);
 		if(collision){
-			this.cargo = SceneCargo;
 			this.packageState = this.delivery.Delivering;
 		}
  	}

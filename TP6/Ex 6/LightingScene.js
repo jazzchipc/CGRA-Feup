@@ -116,11 +116,11 @@ LightingScene.prototype.update = function(currTime){
 	}
 
 	this.drone.update(currTime);
-	
+
 	if (this.drone.packageState == this.drone.delivery.Delivering){
 		var xInc = this.drone.motionVelocity * Math.sin(this.drone.angle*degToRad);
-		var yInc = this.drone.motionVelocity * Math.cos(this.drone.angle*degToRad);
-		var zInc = this.drone.floatVelocity;
+		var yInc = this.drone.floatVelocity;
+		var zInc = this.drone.motionVelocity * Math.cos(this.drone.angle*degToRad);
 		this.cargo.updateCoordinates(xInc, yInc, zInc);
 	}
 }
@@ -248,7 +248,7 @@ LightingScene.prototype.display = function() {
 
 	
 	// ---- BEGIN Geometric transformation section
-
+/**
 // Floor
 	this.pushMatrix();
 		this.translate(7.5, 0, 7.5);
@@ -345,6 +345,7 @@ LightingScene.prototype.display = function() {
 	this.scale(0.75, 0.75, 0.15);
 	this.clock.display();
 	this.popMatrix();
+	*/
 
 	//drone
 	this.pushMatrix();
