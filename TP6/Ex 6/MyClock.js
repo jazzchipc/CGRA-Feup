@@ -28,6 +28,12 @@
     this.redAppearance.setDiffuse(0.5, 0, 0, 1);
     this.redAppearance.setSpecular(0.5, 0, 0, 1);
 
+    this.greyAppearance= new CGFappearance(scene);
+	this.greyAppearance.loadTexture("../resources/images/Grey.jpg")	
+	this.greyAppearance.setDiffuse(0.9, 0.9, 0.9,1);
+	this.greyAppearance.setSpecular(0.2, 0.2, 0.2,1);	
+	this.greyAppearance.setShininess(30);
+
 	//Animation related methods
 	this.initialTime = 0;	// Initial time in miliseconds
     this.elapsedTime = 0;	// Elapsed time in SECONDS
@@ -46,7 +52,7 @@ MyClock.prototype.constructor = MyClock;
 
 	//Cylinder display
 	this.scene.pushMatrix();
-    this.materialDefault.apply();
+    this.greyAppearance.apply();
     this.scene.scale(1, 1, 0.9);	//had to be slightly resized, or face wouldn't be visibible
  	this.cylinder.display();
  	this.scene.popMatrix();
