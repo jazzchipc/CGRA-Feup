@@ -3,14 +3,14 @@
  *	Class that defines the drone's arch connecting body and legs.
  *	Vertices are calculated according to a Bezier QUADRATIC curve.
  */
- function MyArch(scene) {
+ function MyArch(scene, p0, p1, p, width) {
  	CGFobject.call(this,scene);
 	
-	this.p0 = [0,0];	// point of beggining of the curve
-	this.p1 = [1,0];	// point of end of curve
-	this.p = [0.5, 1];	// point which adjusts the curve
+	this.p0 = p0;	//p0 is the point of beggining of the curve
+	this.p1 = p1;	//p1 is the point of end of curve
+	this.p = p;	//p is the point which adjusts the curve
 	
-	this.width = 0.05;		// width of the arch in Z direction
+	this.width = width;		// width of the arch in Z direction
 
 	this.precision = 1/22;	// ATTENTION: Precision has ceratin values for which the arch won't be drawn.
 							// I believe it has to do with approximation errors in the cycle that pushes vertices.
