@@ -25,9 +25,7 @@
 	this.friction = 0.4;
 	this.maxVelocity = Math.sqrt(this.acceleration/this.friction);
  	this.maxTime = 2.5/(this.maxVelocity);
- 	this.slowRotation = 0.1 * 360;
- 	this.normalRotation = 1 * 360;
- 	this.fastRotation = 10 * 360;
+ 	this.rotationSpeed = {slow: 0.1 * 360, normal: 1 * 360, fast: 10 * 360};
  	this.rotationFactor = 1;
 
  	this.motionTime = 0;
@@ -76,11 +74,11 @@ MyDroneHandler.prototype.display = function() {
 
 MyDroneHandler.prototype.rotate = function(orientation){
   this.angle += this.angleStep*orientation;
-  this.drone.setHelicesRotationSpeed(this.slowRotation, this.slowRotation, this.fastRotation, this.fastRotation)
+  this.drone.setHelicesRotationSpeed(this.rotationSpeed.slow, this.rotationSpeed.slow, this.rotationSpeed.fast, this.rotationSpeed.fast)
 }
 
 MyDroneHandler.prototype.staticMovement = function(){
-  this.drone.setHelicesRotationSpeed(this.normalRotation, this.normalRotation, this.normalRotation, this.normalRotation)
+  this.drone.setHelicesRotationSpeed(this.rotationSpeed.normal, this.rotationSpeed.normal, this.rotationSpeed.normal, this.rotationSpeed.normal)
 }
 
 MyDroneHandler.prototype.setRotationFactor = function(rotationFactor){
@@ -234,12 +232,6 @@ MyDroneHandler.prototype.update = function(currTime){
  }
 
  MyDroneHandler.prototype.checkCargoLoad = function(SceneCargo){
- 	console.log('Cargo x value: ', SceneCargo.X);
- 	console.log('Cargo Y value: ', SceneCargo.Y);
- 	console.log('Cargo Z value: ', SceneCargo.Z);
- 	console.log('hook x value: ', this.drone.hook.x);
- 	console.log('hook Y value: ', this.drone.hook.y);
- 	console.log('hook Z value: ', this.drone.hook.z);
  	if(SceneCargo.Y < this.drone.hook.y && this.drone.hook.y < (SceneCargo.Y + 0.1)
  		|| SceneCargo.Y > this.drone.hook.y && this.drone.hook.y > (SceneCargo.Y - 0.1)){
  		
