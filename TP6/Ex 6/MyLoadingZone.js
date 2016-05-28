@@ -16,6 +16,12 @@
 	this.targetAppearance.setDiffuse(0.3, 0.3, 0.3,1);
 	this.targetAppearance.setSpecular(0.6, 0.6, 0.6,1);	
 	this.targetAppearance.setShininess(120);
+
+	this.greyAppearance= new CGFappearance(scene);
+	this.greyAppearance.loadTexture("../resources/images/Grey.jpg")	
+	this.greyAppearance.setDiffuse(0.9, 0.9, 0.9,1);
+	this.greyAppearance.setSpecular(0.2, 0.2, 0.2,1);	
+	this.greyAppearance.setShininess(30);
  };
 
 MyLoadingZone.prototype = Object.create(CGFobject.prototype);
@@ -28,6 +34,7 @@ MyLoadingZone.prototype.display = function() {
     this.scene.rotate(90 * degToRad, 1, 0, 0);
     this.scene.translate(0, 0, -0.5)
     this.scene.scale(1, 1, 0.45);
+    this.greyAppearance.apply();
  	this.cylinder.display();
  	this.scene.popMatrix();
 

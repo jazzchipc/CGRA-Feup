@@ -54,10 +54,9 @@ LightingScene.prototype.init = function(application) {
 	this.currClockTime = 0;	// clock time has to be saved, for when it's stopped
 	this.elapsedClockTime = 0; // time that has passed since clock has been stopped
 
-	this.cube = new MyUnitCubeQuad(this, 0, 1, 0, 1);
 	this.clock = new MyClock(this, 12, 1);
 	this.drone = new MyDroneHandler(this, 15, 4, 15, -180);
-	this.cargo = new MyCargo(this, 0, 8.1, 2);
+	this.cargo = new MyCargo(this, 8.5, 8.1, 6);
 	this.loadingZone = new MyLoadingZone(this, 13, 0, 7.5);
 
 	this.initAppearances();
@@ -139,7 +138,7 @@ LightingScene.prototype.initLights = function() {
 	// Positions for four lights
 	this.lights[0].setPosition(4, 6, 1, 1);
 	this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-	this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
+	this.lights[2].setPosition(7.5, 7.5, 7.5, 1.0);
 	this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
 
 	this.lights[0].setAmbient(0, 0, 0, 1);
@@ -188,6 +187,10 @@ LightingScene.prototype.initAppearances = function() {
 	this.columnAppearance = new CGFappearance(this);
 	this.columnAppearance.loadTexture("../resources/images/Column.png")	
 	this.columnAppearance.setDiffuse(0.3, 0.3, 0.3, 1);
+
+	this.lampAppearance = new CGFappearance(this);
+	this.lampAppearance.loadTexture("../resources/images/Lamp.jpg")	
+	this.lampAppearance.setDiffuse(0.3, 0.3, 0.3, 1);
 
 	//drone appearances
 	this.droneAppearanceList = ['Army', 'Colorful', 'Wood', 'Metallic']
@@ -251,34 +254,34 @@ LightingScene.prototype.display = function() {
 
 	
 	// ---- BEGIN Geometric transformation section
-/**
+
 // Floor
 	this.pushMatrix();
-		this.translate(7.5, 0, 7.5);
-		this.rotate(-90 * degToRad, 1, 0, 0);
-		this.scale(15, 15, 0.2);
-		this.floorAppearance.apply();
-		this.floor.display();
+	this.translate(7.5, 0, 7.5);
+	this.rotate(-90 * degToRad, 1, 0, 0);
+	this.scale(15, 15, 0.2);
+	this.floorAppearance.apply();
+	this.floor.display();
 	this.popMatrix();
 
 	this.materialDefault.apply();
 
 	// Left Wall
 	this.pushMatrix();
-		this.translate(0, 4, 7.5);
-		this.rotate(90 * degToRad, 0, 1, 0);
-		this.scale(15, 8, 0.2);
-		this.windowAppearance.apply();
-		this.leftWall.display();
+	this.translate(0, 4, 7.5);
+	this.rotate(90 * degToRad, 0, 1, 0);
+	this.scale(15, 8, 0.2);
+	this.windowAppearance.apply();
+	this.leftWall.display();
 	this.popMatrix();
 
 	this.materialDefault.apply();
 
 	// Plane Wall
 	this.pushMatrix();
-		this.translate(7.5, 4, 0);
-		this.scale(15, 8, 0.2);
-		this.rightWall.display();
+	this.translate(7.5, 4, 0);
+	this.scale(15, 8, 0.2);
+	this.rightWall.display();
 	this.popMatrix();
 
 	// First Table
@@ -339,6 +342,7 @@ LightingScene.prototype.display = function() {
 	this.pushMatrix();
 	this.translate(7.5, 7.5, 7.5);
 	this.rotate(-90 * degToRad, 1, 0, 0)
+	this.lampAppearance.apply();
 	this.lamp.display();
 	this.popMatrix();
 
@@ -348,7 +352,6 @@ LightingScene.prototype.display = function() {
 	this.scale(0.75, 0.75, 0.15);
 	this.clock.display();
 	this.popMatrix();
-*/
 
 	//drone
 	this.pushMatrix();
@@ -368,17 +371,6 @@ LightingScene.prototype.display = function() {
 	this.pushMatrix();
 	this.loadingZone.display();
 	this.popMatrix();
-
-	
-	this.translate(0, 0.5, 0);
-	this.cube.display();
-	this.translate(0, 1, 0);
-	this.cube.display();
-	this.translate(0, 1, 0);
-	this.cube.display();
-	this.translate(0, 1, 0);
-	this.cube.display();
-	
 	
 
 	// ---- END Geometric transformation section

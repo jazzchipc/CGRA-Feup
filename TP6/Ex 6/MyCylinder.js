@@ -22,28 +22,27 @@ MyCylinder.prototype.constructor = MyCylinder;
 	this.texCoords = [];
  	var ang = Math.PI*2/this.slices;
  	var x, y;
+ 	var counter = 0;
 
 	for(var j = 0; j <= this.stacks; j++){
-		for(var i = 0; i < this.slices; i++){
+		for(var i = 0; i <= this.slices; i++){
 			//posição x e y dos dois vértices de uma mesma face
 			x = Math.cos(i * ang); 
 			y = Math.sin(i * ang);
 
 			this.vertices.push(x, y, j / this.stacks);
-			this.normals.push(Math.cos(i * ang + ang / 2), Math.sin(i * ang + ang/2), 0);
-			this.texCoords.push(i / this.slices, j / this.stacks); 		
-			}
+			this.normals.push(x, y, 0);
+			this.texCoords.push(i / this.slices, j / this.stacks); 
+			counter++;		
+		}
 	}
 
 	for(var j = 0; j < this.stacks; j++){
- 		for(var i = 0; i < this.slices; i++){
- 			if(i == this.slices - 1)
- 				this.indices.push(i + this.slices * j, 0 + this.slices * j, this.slices + i + this.slices * j);
- 			else this.indices.push(i + this.slices * j, i + 1 + this.slices * j, this.slices + i + this.slices * j);
-
-			if(i == this.slices - 1)
-				this.indices.push(0 + this.slices * j, this.slices + this.slices * j, this.slices + i + this.slices * j);
- 			else this.indices.push(i + 1 + this.slices * j, this.slices + i + 1 + this.slices * j, this.slices + i + this.slices * j);
+ 		for(var i = 0; i <= this.slices + 1; i++){
+ 			var stack1 = this.slices * j;
+ 			var stack2 = this.slices * (j + 1);
+ 	 		this.indices.push(i + stack1, i + 1 + stack1, 1 + i + stack2);
+			this.indices.push(i + 1 + stack2, i + stack2, i + stack1);
  		} 
 	}
 
@@ -51,31 +50,16 @@ MyCylinder.prototype.constructor = MyCylinder;
 	this.normals.push(0, 0, 1);
 	this.texCoords.push(0.5, 0.5);
 
-	var lastVertex = this.slices  + this.slices * this.stacks;
 	for(var i = 0; i < this.slices; i++){
-		if(i == this.slices - 1)
- 				this.indices.push(i, lastVertex , 0);
- 			else this.indices.push(i, lastVertex , i + 1);
-
-			if(i == this.slices - 1)
-				this.indices.push(0, lastVertex , this.slices);
- 			else this.indices.push(i + 1, lastVertex , i + 1);
+		this.indices.push(i, counter, i + 1);
 	}
 
 	this.vertices.push(0, 0, 1);
 	this.normals.push(0, 0, 1);
 	this.texCoords.push(0.5, 0.5);
-
-	lastVertex = this.slices  + this.slices * this.stacks + 1;
-	var lastStackVertex = this.slices * this.stacks;
+ 	
 	for(var i = 0; i < this.slices; i++){
-		if(i == this.slices - 1)
- 				this.indices.push(lastStackVertex + i, lastStackVertex, lastVertex);
- 			else this.indices.push(lastStackVertex + i, lastStackVertex +i + 1, lastVertex);
-
-			if(i == this.slices - 1)
-				this.indices.push(lastStackVertex, lastStackVertex + this.slices, lastVertex);
- 			else this.indices.push(lastStackVertex + i + 1,lastStackVertex+  i + 1, lastVertex);
+		this.indices.push(counter - 1 - this.slices + i, counter - this.slices + i, counter + 1);
 	}
 
 
