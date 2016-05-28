@@ -10,7 +10,7 @@
 	this.hookRadius = 0.15;
 	this.hookLength = 0.25;
 	//center bottom coordinates
-	this.hookPosition = this.hookLength + this.cableScale * 0.15;
+	this.hookPosition = this.hookLength + (this.cableScale * 0.15);
 	this.y = 0;
 	this.z = 0;
 	this.x = 0;
@@ -46,7 +46,7 @@ MyDroneHook.prototype.scaleHook = function(scale){
 		this.cableScale = 0.15;
 	this.hookPosition = this.hookLength + this.cableScale * 0.15 ;
 	aux -= this.hookPosition;
-	this.y += aux - 0.25;
+	this.y += aux;
 }
 
 MyDroneHook.prototype.updateCoordinates = function(x, y, z){

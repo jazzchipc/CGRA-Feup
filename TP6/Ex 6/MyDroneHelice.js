@@ -43,23 +43,26 @@ MyDroneHelice.prototype.display = function() {
 }
 
 MyDroneHelice.prototype.update = function(angle){
-	if(this.speedState != this.heliceSpeed.Constant)
+	if(this.speedState != this.heliceSpeed.Constant){
 		this.speed += this.speedStep;
+	}
 	this.angle += (angle * this.speed) - this.angle;
 	
-	if(this.speed == this.desiredSpeed)
+	if(this.speed == this.desiredSpeed){
 		this.speedState = this.heliceSpeed.Constant;
+	}
 }
 
 MyDroneHelice.prototype.setRotationSpeed = function(speed) {
 	if(this.speed < speed){
 		if(this.speedState == this.heliceSpeed.Constant || this.speedState == this.heliceSpeed.Decreasing)
 			this.speedState = this.heliceSpeed.Increasing;
-			this.speedStep = +10;
+			this.speedStep = 36;
 	} else if(this.speed > speed){
 		if(this.speedState == this.heliceSpeed.Constant || this.speedState == this.heliceSpeed.Increasing)
 			this.speedState = this.heliceSpeed.Decreasing;
-			this.speedStep = -10;
+			this.speedStep = -36;
 	}
 	this.desiredSpeed = speed;
+	//as descidas de velocidade entre 360 e 36 são demasiado bruscas
 }

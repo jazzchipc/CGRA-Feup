@@ -54,9 +54,10 @@ LightingScene.prototype.init = function(application) {
 	this.currClockTime = 0;	// clock time has to be saved, for when it's stopped
 	this.elapsedClockTime = 0; // time that has passed since clock has been stopped
 
+	this.cube = new MyUnitCubeQuad(this, 0, 1, 0, 1);
 	this.clock = new MyClock(this, 12, 1);
 	this.drone = new MyDroneHandler(this, 15, 4, 15, -180);
-	this.cargo = new MyCargo(this, 4.35, 4.30, 3.35);
+	this.cargo = new MyCargo(this, 0, 8.1, 2);
 	this.loadingZone = new MyLoadingZone(this, 13, 0, 7.5);
 
 	this.initAppearances();
@@ -118,10 +119,12 @@ LightingScene.prototype.update = function(currTime){
 	this.drone.update(currTime);
 
 	if (this.drone.packageState == this.drone.delivery.Delivering){
+		var hook = this.drone.getHook();
 		var xInc = this.drone.motionVelocity * Math.sin(this.drone.angle*degToRad);
-		var yInc = this.drone.floatVelocity;
+		var yInc = hook.y - 0.5;
 		var zInc = this.drone.motionVelocity * Math.cos(this.drone.angle*degToRad);
 		this.cargo.updateCoordinates(xInc, yInc, zInc);
+		this.drone.checkCargoDrop(this.cargo, this.loadingZone);
 	}
 }
 
@@ -345,7 +348,7 @@ LightingScene.prototype.display = function() {
 	this.scale(0.75, 0.75, 0.15);
 	this.clock.display();
 	this.popMatrix();
-	*/
+*/
 
 	//drone
 	this.pushMatrix();
@@ -356,6 +359,7 @@ LightingScene.prototype.display = function() {
 	//cargo
 	this.materialDefault.apply();
 	this.pushMatrix();
+	this.scale(0.5, 0.5, 0.5)
 	this.cargo.display();
 	this.popMatrix();
 	
@@ -364,6 +368,17 @@ LightingScene.prototype.display = function() {
 	this.pushMatrix();
 	this.loadingZone.display();
 	this.popMatrix();
+
+	
+	this.translate(0, 0.5, 0);
+	this.cube.display();
+	this.translate(0, 1, 0);
+	this.cube.display();
+	this.translate(0, 1, 0);
+	this.cube.display();
+	this.translate(0, 1, 0);
+	this.cube.display();
+	
 	
 
 	// ---- END Geometric transformation section

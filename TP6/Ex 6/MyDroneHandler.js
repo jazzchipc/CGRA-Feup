@@ -189,7 +189,7 @@ MyDroneHandler.prototype.update = function(currTime){
 			if(Math.abs(this.pitchAngle) != 0)
 			{
 				this.pitchCounterAngleStep = Math.abs(this.pitchAngle / 10);
-				this.pitchAngle = this.pitchAngle - (Math.sign(this.pitchAngle) * this.pitchCounterAngleStep);	
+				this.pitchAngle = this.pitchAngle - (sign(this.pitchAngle) * this.pitchCounterAngleStep);	
 			}
 			
 		} else{
@@ -221,7 +221,7 @@ MyDroneHandler.prototype.update = function(currTime){
 		this.X += this.motionVelocity * Math.sin(this.angle*degToRad);
 		this.Z += this.motionVelocity * Math.cos(this.angle*degToRad);
 		this.Y += this.floatVelocity;
- 		this.drone.hook.updateCoordinates(this.X/2, this.Y / 2, this.Z/2);
+ 		this.drone.hook.updateCoordinates(this.X, this.Y, this.Z);
 	}
  }
 
@@ -232,14 +232,34 @@ MyDroneHandler.prototype.update = function(currTime){
  }
 
  MyDroneHandler.prototype.checkCargoLoad = function(SceneCargo){
- 	if(SceneCargo.Y < this.drone.hook.y && this.drone.hook.y < (SceneCargo.Y + 0.1)
- 		|| SceneCargo.Y > this.drone.hook.y && this.drone.hook.y > (SceneCargo.Y - 0.1)){
+	var cargoSurface = SceneCargo.Y + 0.5;
+ 	if(cargoSurface < this.drone.hook.y && this.drone.hook.y < (cargoSurface + 0.1)
+ 		|| cargoSurface > this.drone.hook.y && this.drone.hook.y > (cargoSurface - 0.1)){
  		
- 		var circle = {x:this.drone.hook.x, z:this.drone.hook.z, radius:this.drone.hook.radius};
- 		var rectangle = {x:SceneCargo.X, z:SceneCargo.Z, length:1};
+ 		var circle = {x:this.drone.hook.x, z:this.drone.hook.z, radius:this.drone.hook.radius/2};
+ 		var rectangle = {x:SceneCargo.X, z:SceneCargo.Z, length:0.25};
 		var collision = RectCircleColliding(circle, rectangle);
 		if(collision){
 			this.packageState = this.delivery.Delivering;
+			SceneCargo.Y = this.drone.hook.y - 0.5;
+		}
+ 	}
+ }
+ 
+ MyDroneHandler.prototype.checkCargoDrop = function(SceneCargo, LoadingZone){
+	var cargoBottomSurface = SceneCargo.Y - 0.5;
+	var loadingZoneSurface = 1;
+	
+ 	if(cargoBottomSurface < loadingZoneSurface && loadingZoneSurface < (cargoBottomSurface + 0.1)
+ 		|| cargoBottomSurface > loadingZoneSurface && loadingZoneSurface > (cargoBottomSurface - 0.1)){
+ 		
+ 		var circle = {x: LoadingZone.X, z: LoadingZone.Z, radius: 0.85};
+ 		var rectangle = {x:SceneCargo.X/2, z:SceneCargo.Z/2, length:0.25};
+		var collision = RectCircleColliding(circle, rectangle);
+		console.log('collision: ', collision)
+		if(collision){
+			this.packageState = this.delivery.Delivered;
+			SceneCargo.Y = 1.5;
 		}
  	}
  }
@@ -250,6 +270,11 @@ function RectCircleColliding(circle, rectangle){
 	var halfRectangleLength = rectangle.length/2;
     var distX = Math.abs(circle.x - rectangle.x-halfRectangleLength);
     var distZ = Math.abs(circle.z - rectangle.z-halfRectangleLength);
+	console.log('circle z: ', circle.z)
+	console.log('circle x: ', circle.x)
+	console.log('rectangle z: ', rectangle.z)
+	console.log('rectangle x: ', rectangle.x)
+	console.log('dist x: ', distX)
 
 	//If the distance is greater than halfCircle + halfRect means that they are too far apart to be colliding
     if (distX > (halfRectangleLength + circle.radius))
@@ -262,8 +287,16 @@ function RectCircleColliding(circle, rectangle){
     	return true;
     if (distZ <= (rectangle.length/2))
     	return true;
+	return false;
+}
 
-    var dx=distX-rectangle.length/2;
-    var dz=distZ-rectangle.length/2;
-    return (dx*dx+dz*dz<=(circle.radius*circle.rradius));
+function sign(x){
+    if( +x === x ) { // check if a number was given
+        return (x === 0) ? x : (x > 0) ? 1 : -1;
+    }
+    return NaN;
+}
+
+MyDroneHandler.prototype.getHook = function(){
+	return this.drone.hook;
 }
