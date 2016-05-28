@@ -7,7 +7,7 @@
 	this.cargo = new MyUnitCubeQuad(scene, 0, 1, 0, 1); 
 	//center coordinates
     this.X = x;
-    this.Y = y ;
+    this.Y = y;
     this.Z = z;
     
     this.paperAppearance = new CGFappearance(scene);
@@ -29,7 +29,7 @@ MyCargo.prototype.display = function() {
 }
 
 MyCargo.prototype.updateCoordinates = function(xInc, yInc, zInc) {
-	this.X += xInc/2;
-	this.Y += yInc/2;
-	this.Z += zInc/2;
+	this.X += xInc;
+	this.Y = yInc;
+	this.Z += zInc;
 }
