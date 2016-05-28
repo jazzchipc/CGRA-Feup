@@ -6,7 +6,13 @@
  	CGFobject.call(this,scene);
 	
 	this.base = new MyUnitCubeQuad(scene, 0, 1, 0, 1);
-	this.arch = new MyArch(scene);
+
+	// Arch parameteres
+	p0 = [0,0];
+	p1 = [1,0];
+	p = [0.5, 1];
+	width = 0.05;
+	this.arch = new MyArch(scene, p0, p1, p, width);
  };
 
 MyDroneLeg.prototype = Object.create(CGFobject.prototype);
