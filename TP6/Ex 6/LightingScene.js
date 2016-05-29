@@ -362,7 +362,7 @@ LightingScene.prototype.display = function() {
 	//cargo
 	this.materialDefault.apply();
 	this.pushMatrix();
-	this.scale(0.5, 0.5, 0.5)
+	this.scale(0.5, 0.5, 0.5);
 	this.cargo.display();
 	this.popMatrix();
 	
