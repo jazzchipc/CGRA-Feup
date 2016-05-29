@@ -16,7 +16,7 @@
 	//Pitch - angles in degrees
 	this.pitchAngle = 0;
 	this.pitchAngleStep = 1;
-	this.pitchCounterAngleStep = this.pitchAngle / 10;
+	this.pitchCounterAngleStep = this.pitchAngle / 5;
 
 	this.angleStep = 5;
 	this.motionVelocity = 0;
@@ -95,7 +95,12 @@ MyDroneHandler.prototype.move = function(orientation){
 	if(this.motionState == this.motionTrajectory.Stopped){
 		if(orientation == 1){
 			this.motionState = this.motionTrajectory.Forward;
-		} else this.motionState = this.motionTrajectory.Backward;
+			this.drone.setHelicesRotationSpeed(this.rotationSpeed.slow, this.rotationSpeed.fast, this.rotationSpeed.normal, this.rotationSpeed.normal)
+
+		} else{
+			 this.motionState = this.motionTrajectory.Backward;
+			 this.drone.setHelicesRotationSpeed(this.rotationSpeed.fast, this.rotationSpeed.slow, this.rotationSpeed.normal, this.rotationSpeed.normal)
+		}
 		this.motionTime = 0;
 		this.motionTimeStart = this.elapsedTime;
 	} else if(this.motionState == this.motionTrajectory.Halting){
@@ -156,7 +161,7 @@ MyDroneHandler.prototype.update = function(currTime){
 			this.motionVelocity = (this.maxVelocity * (Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime)- 1))/(Math.exp(2* Math.sqrt(this.acceleration*this.friction) * this.motionTime) + 1);
 		 
 			//Pitch
-			if(this.pitchAngle < 30)
+			if(this.pitchAngle < 20)
 			{
 				this.pitchAngle = this.pitchAngle + this.pitchAngleStep;
 			}
@@ -171,7 +176,7 @@ MyDroneHandler.prototype.update = function(currTime){
 			this.motionVelocity *= -1;
 			
 			//Pitch
-			if(this.pitchAngle > -30)
+			if(this.pitchAngle > -20)
 			{
 				this.pitchAngle = this.pitchAngle - this.pitchAngleStep;
 			}
@@ -270,11 +275,6 @@ function RectCircleColliding(circle, rectangle){
 	var halfRectangleLength = rectangle.length/2;
     var distX = Math.abs(circle.x - rectangle.x-halfRectangleLength);
     var distZ = Math.abs(circle.z - rectangle.z-halfRectangleLength);
-	console.log('circle z: ', circle.z)
-	console.log('circle x: ', circle.x)
-	console.log('rectangle z: ', rectangle.z)
-	console.log('rectangle x: ', rectangle.x)
-	console.log('dist x: ', distX)
 
 	//If the distance is greater than halfCircle + halfRect means that they are too far apart to be colliding
     if (distX > (halfRectangleLength + circle.radius))

@@ -7,16 +7,16 @@
 	
 	this.crossedArm = new MyCylinder(scene, 8, 2); 
 	this.helSupport = new MyCylinder(scene, 8, 1); 
-	this.mainBody = new MySemiSphere(scene, 8, 4);
+	this.mainBody = new MySemiSphere(scene, 8, 12);
 
 	//Drone's hood which is on the north facing side
 	p0 = [-0.5, -1];
 	p1 = [0.5, -1];
-	p = [0, -1.5];
+	p = [0, -1.25];
 	this.hood = new MyArch(scene, p0, p1, p,0.5);
 
 	this.hoodAppearance = new CGFappearance(scene);
-	this.hoodAppearance.loadTexture("../resources/images/Stripes.jpg");
+	this.hoodAppearance.loadTexture("../resources/images/North.png");
 	this.hoodAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');	
 	this.hoodAppearance.setDiffuse(0.3, 0.3, 0.3,1);
 	this.hoodAppearance.setSpecular(0.6, 0.6, 0.6,1);	
@@ -87,8 +87,9 @@ MyDroneBody.prototype.display = function() {
 
 	//Hood
 	this.scene.pushMatrix();
-	this.scene.translate(0, 0, -0.3);
-	this.scene.rotate(-90 * degToRad, 1, 0, 0);
+	this.scene.translate(-0.30, -0.19, 0);
+	this.scene.rotate(90 * degToRad, 0, 1, 0);
+	this.scene.rotate(-135 * degToRad, 0, 0, 1);
 	this.hoodAppearance.apply();
 	this.hood.display();
 	this.scene.popMatrix();

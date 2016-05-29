@@ -33,6 +33,11 @@ LightingScene.prototype.init = function(application) {
 	this.gl.enable(this.gl.DEPTH_TEST);
 	this.gl.enable(this.gl.CULL_FACE);
 	this.gl.depthFunc(this.gl.LEQUAL);
+	this.gl.enable(this.gl.BLEND);
+	this.gl.blendEquation(this.gl.FUNC_ADD);
+	this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA); 
+	this.gl.depthFunc(this.gl.LEQUAL);
+	this.gl.depthMask(true);
 
 	this.axis = new CGFaxis(this);
 
@@ -100,6 +105,9 @@ LightingScene.prototype.update = function(currTime){
 
 	if(this.drone.packageState == this.drone.delivery.Collecting){
 		this.drone.checkCargoLoad(this.cargo);
+		if(this.drone.packageState == this.drone.delivery.Delivering){
+			this.cargo.paperAppearance.setShininess(0);
+		}
 	}
 
 	this.drone.updateTexturesIndex(bodyIndex, legIndex, heliceIndex);
@@ -123,7 +131,11 @@ LightingScene.prototype.update = function(currTime){
 		var yInc = hook.y - 0.5;
 		var zInc = this.drone.motionVelocity * Math.cos(this.drone.angle*degToRad);
 		this.cargo.updateCoordinates(xInc, yInc, zInc);
+		this.cargo.pitchAngle = this.drone.pitchAngle;
 		this.drone.checkCargoDrop(this.cargo, this.loadingZone);
+		if(this.drone.packageState == this.drone.delivery.Delivered){
+			this.cargo.paperAppearance.setShininess(120);
+		}
 	}
 }
 
@@ -323,7 +335,7 @@ LightingScene.prototype.display = function() {
 	this.pushMatrix();
 	this.translate(2, 0, 13);
 	this.rotate(-90 * degToRad, 1, 0, 0)
-	this.scale(1, 1, 10);
+	this.scale(1, 1, 8);
 	this.columnAppearance.apply();
 	this.cylinder.display();
 	this.popMatrix();
@@ -332,7 +344,7 @@ LightingScene.prototype.display = function() {
 	this.pushMatrix();
 	this.translate(13, 0, 2);
 	this.rotate(-90 * degToRad, 1, 0, 0)
-	this.scale(1, 1, 10);
+	this.scale(1, 1, 8);
 	this.cylinder.display();
 	this.popMatrix();
 

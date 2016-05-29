@@ -9,6 +9,7 @@
     this.X = x;
     this.Y = y;
     this.Z = z;
+	this.pitchAngle = 0;
     
     this.paperAppearance = new CGFappearance(scene);
 	this.paperAppearance.loadTexture("../resources/images/Paper.jpg");
@@ -23,13 +24,7 @@ MyCargo.prototype.constructor = MyCargo;
 MyCargo.prototype.display = function() {
 	this.scene.pushMatrix();
 	this.scene.translate(this.X, this.Y, this.Z);
-    if(this.scene.drone.packageState == this.scene.drone.delivery.Delivering)
-	{
-		this.scene.rotate(this.scene.drone.angle*degToRad, 0, 1, 0);
-
-		this.scene.rotate(this.scene.drone.pitchAngle*degToRad, 1, 0, 0);
-	}
-
+	this.scene.rotate(this.pitchAngle*degToRad, 1, 0, 0);
     this.paperAppearance.apply();
 	this.cargo.display();
 	this.scene.popMatrix();

@@ -5,7 +5,7 @@
  function MyDroneHook(scene) {
  	CGFobject.call(this,scene);
 	
-	this.cable = new MyCylinder(scene, 6, 1); 
+	this.cable = new MyCylinder(scene, 6, 3); 
 	this.cableScale = 2;
 	this.hookRadius = 0.15;
 	this.hookLength = 0.25;

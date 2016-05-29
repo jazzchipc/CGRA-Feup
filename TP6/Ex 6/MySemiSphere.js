@@ -38,7 +38,7 @@ MySemiSphere.prototype.constructor = MySemiSphere;
 
 			this.vertices.push(x, y, z);
 			this.normals.push(x, y, z);
-			this.texCoords.push(i / this.slices, j / this.stacks); 	
+			this.texCoords.push(1 - i / this.slices, 1 - j / this.stacks); 	
  		}
 	}
 

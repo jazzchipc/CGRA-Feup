@@ -45,8 +45,8 @@ MyArch.prototype.initBuffers = function() {
 		this.normals.push(xt, yt, 0);
 		this.normals.push(xt, yt, 0);
 		
-		this.texCoords.push(t, 0);
-		this.texCoords.push(t, 1);
+		this.texCoords.push(0, t);
+		this.texCoords.push(1, t);
 	}
 
 	/*
