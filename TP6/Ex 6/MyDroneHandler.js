@@ -92,44 +92,75 @@ MyDroneHandler.prototype.stopMove = function(){
 }
 
 MyDroneHandler.prototype.move = function(orientation){
-	if(this.motionState == this.motionTrajectory.Stopped){
-		if(orientation == 1){
-			this.motionState = this.motionTrajectory.Forward;
-			this.drone.setHelicesRotationSpeed(this.rotationSpeed.slow, this.rotationSpeed.fast, this.rotationSpeed.normal, this.rotationSpeed.normal)
-
-		} else{
-			 this.motionState = this.motionTrajectory.Backward;
-			 this.drone.setHelicesRotationSpeed(this.rotationSpeed.fast, this.rotationSpeed.slow, this.rotationSpeed.normal, this.rotationSpeed.normal)
+	switch(this.motionState){
+		case this.motionTrajectory.Stopped:{
+			if(orientation == 1){
+				this.motionState = this.motionTrajectory.Forward;
+				this.drone.setHelicesRotationSpeed(this.rotationSpeed.slow, this.rotationSpeed.fast, this.rotationSpeed.normal, this.rotationSpeed.normal)
+			} else{
+			 	this.motionState = this.motionTrajectory.Backward;
+			 	this.drone.setHelicesRotationSpeed(this.rotationSpeed.fast, this.rotationSpeed.slow, this.rotationSpeed.normal, this.rotationSpeed.normal)
+			}
+			this.motionTime = 0;
+			this.motionTimeStart = this.elapsedTime;
+			break;
 		}
-		this.motionTime = 0;
-		this.motionTimeStart = this.elapsedTime;
-	} else if(this.motionState == this.motionTrajectory.Halting){
-		this.motionTime = Math.log((-Math.abs(this.motionVelocity) - this.maxVelocity)/(Math.abs(this.motionVelocity) - this.maxVelocity))/(2* Math.sqrt(this.acceleration*this.friction));
-		if(orientation == 1){
-			this.motionState = this.motionTrajectory.Forward;
-		} else this.motionState = this.motionTrajectory.Backward;
-		this.motionTimeStart = this.elapsedTime;	
+		
+		case this.motionTrajectory.Halting:{
+			this.motionTime = Math.log((-Math.abs(this.motionVelocity) - this.maxVelocity)/(Math.abs(this.motionVelocity) - this.maxVelocity))/(2* Math.sqrt(this.acceleration*this.friction));
+			if(sign(orientation) == sign(this.motionVelocity)){
+				if(orientation == 1)
+					this.motionState = this.motionTrajectory.Forward;
+				else this.motionState = this.motionTrajectory.Backward;
+			} else{
+				if(orientation == 1 && Math.abs(this.motionVelocity) < 0.25){
+					this.motionState = this.motionTrajectory.Forward;
+					this.drone.setHelicesRotationSpeed(this.rotationSpeed.slow, this.rotationSpeed.fast, this.rotationSpeed.normal, this.rotationSpeed.normal)
+				}
+				else if(orientation == -1 && Math.abs(this.motionVelocity) < 0.25){
+					this.motionState = this.motionTrajectory.Backward;
+					this.drone.setHelicesRotationSpeed(this.rotationSpeed.fast, this.rotationSpeed.slow, this.rotationSpeed.normal, this.rotationSpeed.normal)
+				}
+			}
+			this.motionTimeStart = this.elapsedTime;	
+			break;
+		}
+		default: break;
 	}
-	
-	//completar
 }
 
 MyDroneHandler.prototype.fly = function(orientation){
-	if(this.floatState == this.floatTrajectory.Stopped){
-		if(orientation == 1){
-			this.floatState = this.floatTrajectory.Upward;
-		} else this.floatState = this.floatTrajectory.Downward;
-		this.floatTime = 0;
-		this.floatTimeStart = this.elapsedTime;
-	} else if(this.floatState == this.floatTrajectory.Halting){
-		this.floatTime = Math.log((-Math.abs(this.floatVelocity) - this.maxVelocity)/(Math.abs(this.floatVelocity) - this.maxVelocity))/(2* Math.sqrt(this.acceleration*this.friction));
-		if(orientation == 1){
-			this.floatState = this.floatTrajectory.Upward;
-		} else this.floatState = this.floatTrajectory.Downward;
-		this.floatTimeStart = this.elapsedTime;
+	switch(this.floatState){
+		case this.floatTrajectory.Stopped:{
+			if(orientation == 1){
+				this.floatState = this.floatTrajectory.Upward;
+			} else{
+			 	this.floatState = this.floatTrajectory.Downward;
+			}
+			this.floatTime = 0;
+			this.floatTimeStart = this.elapsedTime;
+			break;
+		}
+		
+		case this.floatTrajectory.Halting:{
+			this.floatTime = Math.log((-Math.abs(this.floatVelocity) - this.maxVelocity)/(Math.abs(this.floatVelocity) - this.maxVelocity))/(2* Math.sqrt(this.acceleration*this.friction));
+			if(sign(orientation) == sign(this.floatVelocity)){
+				if(orientation == 1)
+					this.floatState = this.floatTrajectory.Upward;
+				else this.floatState = this.floatTrajectory.Downward;
+			} else{
+				if(orientation == 1 && Math.abs(this.floatVelocity) < 0.25){
+					this.floatState = this.floatTrajectory.Upward;
+				}
+				else if(orientation == -1 && Math.abs(this.floatVelocity) < 0.25){
+					this.floatState = this.floatTrajectory.Downward;
+				}
+			}
+			this.floatTimeStart = this.elapsedTime;	
+			break;
+		}
+		default: break;
 	}
-	
-	//completar -> falta quando o estado é upward e downward
 }
 
 MyDroneHandler.prototype.stopFly = function(){
@@ -168,7 +199,6 @@ MyDroneHandler.prototype.update = function(currTime){
 			
 			if(this.motionTime > this.maxTime){
 				this.motionState = this.motionTrajectory.Halting;
-				console.log(this.motionVelocity);
 			}
 		} else if(this.motionState == this.motionTrajectory.Backward){
 			this.motionTime = this.elapsedTime - this.motionTimeStart;
@@ -186,8 +216,10 @@ MyDroneHandler.prototype.update = function(currTime){
 			}
 		} else if(this.motionState == this.motionTrajectory.Halting){
 			this.motionTime = this.elapsedTime - this.motionTimeStart;
-			if(Math.abs(this.motionVelocity) < 0.01)
+			if(Math.abs(this.motionVelocity) < 0.01){
+				this.drone.setHelicesRotationSpeed(this.rotationSpeed.normal, this.rotationSpeed.normal, this.rotationSpeed.normal, this.rotationSpeed.normal)
 				this.motionState = this.motionTrajectory.Stopped;
+			}
 			this.motionVelocity *= 0.95;
 			
 			//Pitch

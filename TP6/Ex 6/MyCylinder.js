@@ -38,7 +38,7 @@ MyCylinder.prototype.constructor = MyCylinder;
 	}
 
 	for(var j = 0; j < this.stacks; j++){
- 		for(var i = 0; i <= this.slices; i++){
+ 		for(var i = 0; i <= this.slices + 1; i++){
  			var stack1 = this.slices * j;
  			var stack2 = this.slices * (j + 1);
  	 		this.indices.push(i + stack1, i + 1 + stack1, 1 + i + stack2);

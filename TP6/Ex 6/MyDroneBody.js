@@ -20,7 +20,7 @@
 	this.hoodAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');	
 	this.hoodAppearance.setDiffuse(0.3, 0.3, 0.3,1);
 	this.hoodAppearance.setSpecular(0.6, 0.6, 0.6,1);	
-	this.hoodAppearance.setShininess(120);
+	this.hoodAppearance.setShininess(20);
  };
 
 MyDroneBody.prototype = Object.create(CGFobject.prototype);
