@@ -293,7 +293,6 @@ MyDroneHandler.prototype.update = function(currTime){
  		var circle = {x: LoadingZone.X, z: LoadingZone.Z, radius: 0.85};
  		var rectangle = {x:SceneCargo.X/2, z:SceneCargo.Z/2, length:0.25};
 		var collision = RectCircleColliding(circle, rectangle);
-		console.log('collision: ', collision)
 		if(collision){
 			this.packageState = this.delivery.Delivered;
 			SceneCargo.Y = 1.5;
