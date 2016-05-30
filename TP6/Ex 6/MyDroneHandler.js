@@ -294,8 +294,8 @@ MyDroneHandler.prototype.update = function(currTime){
  	if(cargoBottomSurface < loadingZoneSurface && loadingZoneSurface < (cargoBottomSurface + 0.2)
  		|| cargoBottomSurface > loadingZoneSurface && loadingZoneSurface > (cargoBottomSurface - 0.2)){
  		
- 		var circle = {x: LoadingZone.X, z: LoadingZone.Z, radius: 0.65};
- 		var rectangle = {x:SceneCargo.X/2, z:SceneCargo.Z/2, length:0.50};
+ 		var circle = {x: LoadingZone.X, z: LoadingZone.Z, radius: 0.8};
+ 		var rectangle = {x:SceneCargo.X/2, z:SceneCargo.Z/2, length:1};
 		var collision = RectCircleColliding(circle, rectangle);
 		if(collision){
 			this.packageState = this.delivery.Delivered;
@@ -318,9 +318,13 @@ function RectCircleColliding(circle, rectangle){
     	return false;
  
 	//If the distance is less than halfRect then they are definitely colliding
-    if (distX <= (rectangle.length/2) && distZ <= (rectangle.length/2))
+    if (distX <= halfRectangleLength && distZ <= halfRectangleLength)
     	return true;
-	else return false;
+	
+	if (distX <= circle.radius && distZ <= circle.radius)
+    	return true;
+
+    return false;
 }
 
 function sign(x){
