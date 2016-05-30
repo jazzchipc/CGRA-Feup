@@ -277,7 +277,7 @@ MyDroneHandler.prototype.update = function(currTime){
  	if(cargoSurface < this.drone.hook.y && this.drone.hook.y < (cargoSurface + 0.2)
  		|| cargoSurface > this.drone.hook.y && this.drone.hook.y > (cargoSurface - 0.2)){
  		
- 		var circle = {x:this.drone.hook.x, z:this.drone.hook.z, radius:this.drone.hook.radius};
+ 		var circle = {x:this.drone.hook.x, z:this.drone.hook.z, radius:this.drone.hook.radius * 2};
  		var rectangle = {x:SceneCargo.X, z:SceneCargo.Z, length:0.5};
 		var collision = RectCircleColliding(circle, rectangle);
 		if(collision){
