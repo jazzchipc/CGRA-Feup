@@ -31,7 +31,7 @@ MyDrone.prototype.display = function() {
 	
 	this.textures[this.heliceTextureIndex].apply();
 	this.scene.pushMatrix();
-	this.scene.translate(0, 0.15, -2.85);
+	this.scene.translate(0, 0.15, 2.85);
 	this.northHelice.display();
 	this.scene.popMatrix();
 
@@ -46,7 +46,7 @@ MyDrone.prototype.display = function() {
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-	this.scene.translate(0, 0.15, 2.85);
+	this.scene.translate(0, 0.15, -2.85);
 	this.southHelice.display();
 	this.scene.popMatrix();
 }

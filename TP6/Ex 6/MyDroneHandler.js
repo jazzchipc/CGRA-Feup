@@ -270,11 +270,11 @@ MyDroneHandler.prototype.update = function(currTime){
 
  MyDroneHandler.prototype.checkCargoLoad = function(SceneCargo){
 	var cargoSurface = SceneCargo.Y + 0.5;
- 	if(cargoSurface < this.drone.hook.y && this.drone.hook.y < (cargoSurface + 0.1)
- 		|| cargoSurface > this.drone.hook.y && this.drone.hook.y > (cargoSurface - 0.1)){
+ 	if(cargoSurface < this.drone.hook.y && this.drone.hook.y < (cargoSurface + 0.2)
+ 		|| cargoSurface > this.drone.hook.y && this.drone.hook.y > (cargoSurface - 0.2)){
  		
- 		var circle = {x:this.drone.hook.x, z:this.drone.hook.z, radius:this.drone.hook.radius/2};
- 		var rectangle = {x:SceneCargo.X, z:SceneCargo.Z, length:0.25};
+ 		var circle = {x:this.drone.hook.x, z:this.drone.hook.z, radius:this.drone.hook.radius};
+ 		var rectangle = {x:SceneCargo.X, z:SceneCargo.Z, length:0.5};
 		var collision = RectCircleColliding(circle, rectangle);
 		if(collision){
 			this.packageState = this.delivery.Delivering;
@@ -287,13 +287,12 @@ MyDroneHandler.prototype.update = function(currTime){
 	var cargoBottomSurface = SceneCargo.Y - 0.5;
 	var loadingZoneSurface = 1;
 	
- 	if(cargoBottomSurface < loadingZoneSurface && loadingZoneSurface < (cargoBottomSurface + 0.1)
- 		|| cargoBottomSurface > loadingZoneSurface && loadingZoneSurface > (cargoBottomSurface - 0.1)){
+ 	if(cargoBottomSurface < loadingZoneSurface && loadingZoneSurface < (cargoBottomSurface + 0.2)
+ 		|| cargoBottomSurface > loadingZoneSurface && loadingZoneSurface > (cargoBottomSurface - 0.2)){
  		
- 		var circle = {x: LoadingZone.X, z: LoadingZone.Z, radius: 0.85};
- 		var rectangle = {x:SceneCargo.X/2, z:SceneCargo.Z/2, length:0.25};
+ 		var circle = {x: LoadingZone.X, z: LoadingZone.Z, radius: 0.65};
+ 		var rectangle = {x:SceneCargo.X/2, z:SceneCargo.Z/2, length:0.50};
 		var collision = RectCircleColliding(circle, rectangle);
-		console.log('collision: ', collision)
 		if(collision){
 			this.packageState = this.delivery.Delivered;
 			SceneCargo.Y = 1.5;
@@ -313,13 +312,11 @@ function RectCircleColliding(circle, rectangle){
     	return false; 
     if (distZ > (halfRectangleLength + circle.radius))
     	return false;
-
+ 
 	//If the distance is less than halfRect then they are definitely colliding
-    if (distX <= (rectangle.length/2))
+    if (distX <= (rectangle.length/2) && distZ <= (rectangle.length/2))
     	return true;
-    if (distZ <= (rectangle.length/2))
-    	return true;
-	return false;
+	else return false;
 }
 
 function sign(x){

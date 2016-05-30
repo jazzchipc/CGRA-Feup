@@ -8,17 +8,8 @@
 	this.center = new MySemiSphere(scene, 8, 4); 
 	this.spade = new MyCylinder(scene, 8, 1); 
 	this.angle = 180;
-	this.desiredSpeed = 1 * 360;
-	this.speedStep = 0;
 	this.speed = 1 * 360;
-	
-	this.heliceSpeed ={
- 	      Increasing:1,
- 	      Decreasing:2,
- 	      Constant:3,
- 	}
-	
-	this.speedState = this.heliceSpeed.Constant;
+	this.auxAngle = this.angle;
  };
 
 MyDroneHelice.prototype = Object.create(CGFobject.prototype);
@@ -43,26 +34,9 @@ MyDroneHelice.prototype.display = function() {
 }
 
 MyDroneHelice.prototype.update = function(angle){
-	if(this.speedState != this.heliceSpeed.Constant){
-		this.speed += this.speedStep;
-	}
-	this.angle += (angle * this.speed) - this.angle;
-	
-	if(this.speed == this.desiredSpeed){
-		this.speedState = this.heliceSpeed.Constant;
-	}
+	this.auxAngle += angle - this.auxAngle;
+	this.angle = this.auxAngle * this.speed;
 }
 
 MyDroneHelice.prototype.setRotationSpeed = function(speed) {
-	if(this.speed < speed){
-		if(this.speedState == this.heliceSpeed.Constant || this.speedState == this.heliceSpeed.Decreasing)
-			this.speedState = this.heliceSpeed.Increasing;
-			this.speedStep = 36;
-	} else if(this.speed > speed){
-		if(this.speedState == this.heliceSpeed.Constant || this.speedState == this.heliceSpeed.Increasing)
-			this.speedState = this.heliceSpeed.Decreasing;
-			this.speedStep = -36;
-	}
-	this.desiredSpeed = speed;
-	//as descidas de velocidade entre 360 e 36 são demasiado bruscas
-}
+	this.speed = speed;}
