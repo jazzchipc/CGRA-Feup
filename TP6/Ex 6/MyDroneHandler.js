@@ -74,7 +74,11 @@ MyDroneHandler.prototype.display = function() {
 
 MyDroneHandler.prototype.rotate = function(orientation){
   this.angle += this.angleStep*orientation;
-  this.drone.setHelicesRotationSpeed(this.rotationSpeed.slow, this.rotationSpeed.slow, this.rotationSpeed.fast, this.rotationSpeed.fast)
+
+  if (orientation == 1)
+  	this.drone.setHelicesRotationSpeed(this.rotationSpeed.slow, this.rotationSpeed.slow, this.rotationSpeed.fast, this.rotationSpeed.fast);
+  else
+  	this.drone.setHelicesRotationSpeed(this.rotationSpeed.fast, this.rotationSpeed.fast, this.rotationSpeed.slow, this.rotationSpeed.slow);
 }
 
 MyDroneHandler.prototype.staticMovement = function(){
