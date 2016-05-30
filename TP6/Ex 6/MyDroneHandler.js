@@ -67,8 +67,11 @@ MyDroneHandler.prototype.constructor = MyDroneHandler;
 
 MyDroneHandler.prototype.display = function() {
     this.scene.translate(this.X, this.Y, this.Z );
+	this.drone.textures[this.drone.legTextureIndex].apply();
+	this.drone.hook.display();
     this.scene.rotate(this.angle*degToRad, 0, 1, 0);
 	this.scene.rotate(this.pitchAngle*degToRad, 1, 0, 0);
+	
     this.drone.display();
 }
 

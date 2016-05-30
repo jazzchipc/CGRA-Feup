@@ -27,7 +27,7 @@ MyDrone.prototype.display = function() {
 	this.textures[this.legTextureIndex].apply();
 	this.rightLeg.display();
 	this.leftLeg.display();
-	this.hook.display();
+	//this.hook.display();
 	
 	this.textures[this.heliceTextureIndex].apply();
 	this.scene.pushMatrix();
