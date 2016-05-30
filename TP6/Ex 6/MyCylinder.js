@@ -35,12 +35,6 @@ MyCylinder.prototype.constructor = MyCylinder;
 			this.normals.push(x, y, 0);
 			this.texCoords.push(j / this.slices, i / this.stacks); 
 			counter++;	
-
-			/*if(j > 0 && i > 0)
-			{
-				this.indices.push(counter-1, counter-2, counter-this.slices-2);
-				this.indices.push(counter-this.slices-3, counter-this.slices-2, counter-2);
-			}	*/
 		}
 	}
 
