@@ -24,25 +24,34 @@ MyCylinder.prototype.constructor = MyCylinder;
  	var x, y;
  	var counter = 0;
 
-	for(var j = 0; j <= this.stacks; j++){
-		for(var i = 0; i <= this.slices; i++){
-			//posição x e y dos dois vértices de uma mesma face
-			x = Math.cos(i * ang); 
-			y = Math.sin(i * ang);
+	for(var i = 0; i <= this.stacks; i++){
 
-			this.vertices.push(x, y, j / this.stacks);
+		for(var j = 0; j <= this.slices; j++){
+			//posição x e y dos dois vértices de uma mesma face
+			x = Math.cos(j * ang); 
+			y = Math.sin(j * ang);
+
+			this.vertices.push(x, y, i / this.stacks);
 			this.normals.push(x, y, 0);
-			this.texCoords.push(i / this.slices, j / this.stacks); 
-			counter++;		
+			this.texCoords.push(j / this.slices, i / this.stacks); 
+			counter++;	
+
+			/*if(j > 0 && i > 0)
+			{
+				this.indices.push(counter-1, counter-2, counter-this.slices-2);
+				this.indices.push(counter-this.slices-3, counter-this.slices-2, counter-2);
+			}	*/
 		}
 	}
 
-	for(var j = 0; j < this.stacks; j++){
- 		for(var i = 0; i <= this.slices + 1; i++){
- 			var stack1 = this.slices * j;
- 			var stack2 = this.slices * (j + 1);
- 	 		this.indices.push(i + stack1, i + 1 + stack1, 1 + i + stack2);
-			this.indices.push(i + 1 + stack2, i + stack2, i + stack1);
+	for(var i = 1; i <= this.stacks; i++){
+ 		for(var j = 1; j <= this.slices; j++)
+ 		{
+			var stack1 = (this.slices+1) * (i - 1) + (this.slices - j);
+			var stack2 = (this.slices+1) * i + (this.slices - j);
+
+			this.indices.push(stack1, stack1 + 1, stack2+1);
+			this.indices.push(stack2+1, stack2, stack1);
  		} 
 	}
 
