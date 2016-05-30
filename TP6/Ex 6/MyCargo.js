@@ -28,7 +28,7 @@ MyCargo.prototype.display = function() {
 	if(this.scene.drone.packageState == this.scene.drone.delivery.Delivering)
 		{
 			this.pitchAngle = this.scene.drone.pitchAngle;
-			this.scene.rotate(this.scene.drone.angle, 0, 1, 0);	
+			this.scene.rotate(this.scene.drone.angle*degToRad, 0, 1, 0);	
 			this.scene.rotate(this.pitchAngle*degToRad, 1, 0, 0);
 		}
 	else
