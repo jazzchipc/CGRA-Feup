@@ -24,7 +24,20 @@ MyCargo.prototype.constructor = MyCargo;
 MyCargo.prototype.display = function() {
 	this.scene.pushMatrix();
 	this.scene.translate(this.X, this.Y, this.Z);
-	this.scene.rotate(this.pitchAngle*degToRad, 1, 0, 0);
+
+	if(this.scene.drone.packageState == this.scene.drone.delivery.Delivering)
+		{
+			this.pitchAngle = this.scene.drone.pitchAngle;
+			this.scene.rotate(this.scene.drone.angle, 0, 1, 0);	
+			this.scene.rotate(this.pitchAngle*degToRad, 1, 0, 0);
+		}
+	else
+		{
+			this.pitchAngle = 0;
+		}
+
+	
+
     this.paperAppearance.apply();
 	this.cargo.display();
 	this.scene.popMatrix();
